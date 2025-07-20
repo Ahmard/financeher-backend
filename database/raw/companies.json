@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Central Bank of Nigeria",
+    "email": "cbn.test@daccubin.com",
+    "phone": "07002255226"
+  },
+  {
+    "name": "Guaranty Trust Bank Plc",
+    "email": "gtb.test@daccubin.com",
+    "phone": "08037007000"
+  },
+  {
+    "name": "Standard Chartered Nigeria",
+    "email": "scn.test@daccubin.com",
+    "phone": "08027130000"
+  },
+  {
+    "name": "Bank of Industry Limited",
+    "email": "boi.test@daccubin.com",
+    "phone": "07002254646"
+  },
+  {
+    "name": "FairMoney Microfinance Bank",
+    "email": "fairmoney.test@theaccubin.com",
+    "phone": "09081238000"
+  },
+  {
+    "name": "Medical and Dental Council of Nigeria",
+    "email": "mdcn.test@theaccubin.com",
+    "phone": "07084648080"
+  },
+  {
+    "name": "National Hospital Abuja",
+    "email": "nha.test@theaccubin.com",
+    "phone": "09029083000"
+  },
+  {
+    "name": "Echo Scan Services LTD",
+    "email": "echo.scan.test@theaccubin.com",
+    "phone": "09092223444"
+  },
+  {
+    "name": "National Board for Technical Education",
+    "email": "nbte.test@theaccubin.com",
+    "phone": "07002002234"
+  },
+  {
+    "name": "National Open University of Nigeria",
+    "email": "noun.test@theaccubin.com",
+    "phone": "07036949682"
+  },
+  {
+    "name": "American University of Nigeria",
+    "email": "aun.test@theaccubin.com",
+    "phone": "08054721030"
+  },
+  {
+    "name": "National Information Technology Development Agency",
+    "email": "nitda.test@theaccubin.com",
+    "phone": "07000302700"
+  },
+  {
+    "name": "Bolt Technology",
+    "email": "bolt.test@theaccubin.com",
+    "phone": "07080505050"
+  },
+  {
+    "name": "Uber Technologies Inc.",
+    "email": "uber.test@theaccubin.com",
+    "phone": "07000000000"
+  },
+  {
+    "name": "Nigerian Customs Service",
+    "email": "customs.test@theaccubin.com",
+    "phone": "0809 000 0000"
+  },
+  {
+    "name": "Federal Character Commission",
+    "email": "fcc.test@theaccubin.com",
+    "phone": "08098887777"
+  },
+  {
+    "name": "Federal Inland Revenue Services",
+    "email": "firs.test@theaccubin.com",
+    "phone": "07028044335"
+  },
+  {
+    "name": "Nigerian Communications Commission",
+    "email": "ncc.test@theaccubin.com",
+    "phone": "09046230000"
+  },
+  {
+    "name": "MTN Nigeria Communications PLC",
+    "email": "mtn.test@theaccubin.com",
+    "phone": "08032000000"
+  },
+  {
+    "name": "Airtel Africa",
+    "email": "airtel.test@theaccubin.com",
+    "phone": "08029055000"
+  }
+]

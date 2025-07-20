@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+use Dotenv\Dotenv;
+use PHPServer\BuiltIn\Server;
+
+require 'vendor/autoload.php';
+
+Dotenv::createImmutable(__DIR__)->load();
+
+Server::create($_ENV['LOCAL_SERVER_HOST'], $_ENV['LOCAL_SERVER_PORT'])
+    ->setDocumentRoot(__DIR__ . '/public')
+    ->setPHPExecutable('/usr/bin/php8.4')
+    ->setWorkers(3)
+    ->start()
+    ->logOutputToConsole();

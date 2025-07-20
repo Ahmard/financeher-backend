@@ -1,0 +1,22 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+
+    # Level 9 is the highest level
+    level: 5
+
+    ignoreErrors:
+        - '#Access to an undefined property App\\Enums(.*)#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:(.*)#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:(.*)#'
+        - '#Trait (.*) is used zero times and is not analysed\.#'
+        - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:(.*)#'
+
+#    excludePaths:
+#        - ./*/*/FileToBeExcluded.php
+#
+#    checkMissingIterableValueType: false

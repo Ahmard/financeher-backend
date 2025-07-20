@@ -1,0 +1,4 @@
+{{module}} module is currently under maintenance.<br/>
+Please check back later<br/><br/>
+
+Thank you for understanding!

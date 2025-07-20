@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  financeher-backend:
+    build: .
+    container_name: financeher-backend
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    dns:
+      - "${FINANCEHER_DOCKER_DNS_PUBLIC_1}"
+      - "${FINANCEHER_DOCKER_DNS_PUBLIC_2}"
+      - "${FINANCEHER_DOCKER_DNS_PREFIX}.254"
+    volumes:
+      - /financeher/backend/public/uploads:/var/www/public/uploads
+      - ./docker/supervisor/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    networks:
+      - financeher-main-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  financeher-main-network:
+    name: financeher-main-network
+    external: true
