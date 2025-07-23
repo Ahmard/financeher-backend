@@ -10,7 +10,7 @@ class GeoStateQueryBuilder extends BaseQueryBuilder
 {
     use SearchableQueryBuilderTrait;
 
-    public function filterByCountry(int $id): Builder
+    public function filterByCountry(string $id): Builder
     {
         return $this
             ->all()

@@ -50,6 +50,7 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
+    'debug_email' => (bool) env('APP_DEBUG_EMAIL', false),
 
     /*
     |--------------------------------------------------------------------------

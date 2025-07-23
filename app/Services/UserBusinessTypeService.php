@@ -2,17 +2,14 @@
 
 namespace App\Services;
 
-use App\Enums\Types\LogTrailEntityType;
-use App\Models\BusinessStage;
 use App\Models\UserBusinessType;
-use App\Repositories\BaseRepository;
-use App\Repositories\UserBusinessStageRepository;
+use App\Repositories\UserBusinessTypeRepository;
 use Illuminate\Database\Eloquent\Model;
 
 class UserBusinessTypeService extends BasePersistableService
 {
     public function __construct(
-        private readonly UserBusinessStageRepository $repository,
+        private readonly UserBusinessTypeRepository $repository,
     )
     {
     }
@@ -40,7 +37,7 @@ class UserBusinessTypeService extends BasePersistableService
         $this->repository->deleteById($type['id']);
     }
 
-    public function repository(): UserBusinessStageRepository
+    public function repository(): UserBusinessTypeRepository
     {
         return $this->repository;
     }

@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\UserBusinessStage;
 use App\QueryBuilders\UserBusinessStageQueryBuilder;
-use App\QueryBuilders\UserBusinessTypeQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 
 class UserBusinessStageRepository extends BaseRepository
@@ -18,17 +17,17 @@ class UserBusinessStageRepository extends BaseRepository
     public function create(
         int    $createdBy,
         int    $userId,
-        string $typeId,
+        string $stageId,
     ): UserBusinessStage|Model
     {
         return UserBusinessStage::query()->create([
             'created_by' => $createdBy,
             'user_id' => $userId,
-            'business_stage_id' => $typeId,
+            'business_stage_id' => $stageId,
         ]);
     }
 
-    public function queryBuilder(): UserBusinessTypeQueryBuilder
+    public function queryBuilder(): UserBusinessStageQueryBuilder
     {
         return $this->queryBuilder;
     }

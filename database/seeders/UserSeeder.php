@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 use App\Enums\UserRole;
+use App\Models\BusinessStage;
+use App\Models\BusinessType;
 use App\Models\GeoCountry;
+use App\Models\OpportunityType;
 use App\Services\UserService;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
@@ -23,12 +26,30 @@ class UserSeeder extends Seeder
             ->whereRaw('LOWER(name) = ?', ['nigeria'])
             ->first();
 
+        $types = BusinessType::query()
+            ->select('id')
+            ->get()
+            ->toArray();
+
+        $stages = BusinessStage::query()
+            ->select('id')
+            ->get()
+            ->toArray();
+
+        $opTypes = OpportunityType::query()
+            ->select('id')
+            ->get()
+            ->toArray();
+
+        // pick random values from types
+        $businessTypeIds = array_rand($types, mt_rand(3, 6));
+
         $service->create(
             invitedBy: null,
             countryId: $country['id'],
-            businessTypeIds: [],
-            businessStageIds: [],
-            opportunityTypeIds: [],
+            businessTypeIds: array_rand($types, mt_rand(2, 4)),
+            businessStageIds: array_rand($stages, mt_rand(2, 4)),
+            opportunityTypeIds: array_rand($opTypes, mt_rand(2, 4)),
             businessName: 'Financeher',
             firstName: 'Super',
             lastName: 'Admin',
@@ -41,9 +62,9 @@ class UserSeeder extends Seeder
         $service->create(
             invitedBy: null,
             countryId: $country['id'],
-            businessTypeIds: [],
-            businessStageIds: [],
-            opportunityTypeIds: [],
+            businessTypeIds: array_rand($types, mt_rand(1, 3)),
+            businessStageIds: array_rand($stages, mt_rand(1, 3)),
+            opportunityTypeIds: array_rand($opTypes, mt_rand(1, 3)),
             businessName: 'SpiralOver',
             firstName: 'Ahmad',
             lastName: 'Mustapha',
@@ -59,9 +80,9 @@ class UserSeeder extends Seeder
             $service->create(
                 invitedBy: null,
                 countryId: $country['id'],
-                businessTypeIds: [],
-                businessStageIds: [],
-                opportunityTypeIds: [],
+                businessTypeIds: array_rand($types, mt_rand(1, 3)),
+                businessStageIds: array_rand($stages, mt_rand(1, 3)),
+                opportunityTypeIds: array_rand($opTypes, mt_rand(1, 3)),
                 businessName: null,
                 firstName: $faker->firstName(),
                 lastName: $faker->lastName(),

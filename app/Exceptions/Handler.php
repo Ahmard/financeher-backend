@@ -7,6 +7,7 @@ use App\Helpers\Http\Responder;
 use App\Services\MailService;
 use GuzzleHttp\Exception\RequestException;
 use HttpStatusCodes\StatusCode;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -94,17 +95,22 @@ class Handler
         ]);
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
     private static function fireEmail(Throwable $exception): void
     {
         if (!App::isProduction()) return;
 
-        MailService::new()
-            ->setRecipient(config('app.error_reporting_email'))
-            ->setSubject('Error Report')
-            ->setBody(view('mails.error-local', [
-                'exception' => $exception,
-                'request' => request(),
-            ]))
-            ->send();
+        if (config('app.debug_email', false)) {
+            MailService::new()
+                ->setRecipient(config('app.error_reporting_email'))
+                ->setSubject('Error Report')
+                ->setBody(view('mails.error-local', [
+                    'exception' => $exception,
+                    'request' => request(),
+                ]))
+                ->send();
+        }
     }
 }

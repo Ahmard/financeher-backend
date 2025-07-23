@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Http\Responder;
 use App\Http\Requests\Authentication\EmailRequest;
+use App\QueryBuilders\BusinessStageQueryBuilder;
+use App\QueryBuilders\BusinessTypeQueryBuilder;
 use App\QueryBuilders\GeoCountryQueryBuilder;
 use App\QueryBuilders\GeoLocalGovQueryBuilder;
 use App\QueryBuilders\GeoStateQueryBuilder;
+use App\QueryBuilders\OpportunityTypeQueryBuilder;
 use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Psr\Container\ContainerExceptionInterface;
@@ -20,18 +23,57 @@ class MiscController extends Controller
     {
     }
 
-    public function userLookup(EmailRequest $request, UserRepository $repository): JsonResponse
+    /**
+     * @param BusinessTypeQueryBuilder $queryBuilder
+     * @return JsonResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function businessTypes(BusinessTypeQueryBuilder $queryBuilder): JsonResponse
     {
-        $user = $repository->findByEmail($request->validated('email'));
-        return $this->responder->success(
-            data: [
-                'found' => $user != null,
-                'user' => $user != null ? [
-                    'id' => $user['id'],
-                    'full_name' => sprintf('%s %s', $user['first_name'], $user['last_name']),
-                ] : null
-            ],
-            message: $user == null ? 'user not found' : 'user found'
+        return $this->responder->selectable(
+            builder: $queryBuilder
+                ->withSearch($this->getSearchQuery())
+                ->all(),
+            idColumn: 'id',
+            textColumn: 'name',
+            select2Limit: 1000,
+        );
+    }
+
+    /**
+     * @param BusinessStageQueryBuilder $queryBuilder
+     * @return JsonResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function businessStages(BusinessStageQueryBuilder $queryBuilder): JsonResponse
+    {
+        return $this->responder->selectable(
+            builder: $queryBuilder
+                ->withSearch($this->getSearchQuery())
+                ->all(),
+            idColumn: 'id',
+            textColumn: 'name',
+            select2Limit: 1000,
+        );
+    }
+
+    /**
+     * @param OpportunityTypeQueryBuilder $queryBuilder
+     * @return JsonResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function opportunityTypes(OpportunityTypeQueryBuilder $queryBuilder): JsonResponse
+    {
+        return $this->responder->selectable(
+            builder: $queryBuilder
+                ->withSearch($this->getSearchQuery())
+                ->all(),
+            idColumn: 'id',
+            textColumn: 'name',
+            select2Limit: 1000,
         );
     }
 
@@ -54,13 +96,13 @@ class MiscController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $id
      * @param GeoStateQueryBuilder $queryBuilder
      * @return JsonResponse
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function states(int $id, GeoStateQueryBuilder $queryBuilder): JsonResponse
+    public function states(string $id, GeoStateQueryBuilder $queryBuilder): JsonResponse
     {
         return $this->responder->selectable(
             builder: $queryBuilder
@@ -73,13 +115,13 @@ class MiscController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $id
      * @param GeoLocalGovQueryBuilder $queryBuilder
      * @return JsonResponse
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function localGovs(int $id, GeoLocalGovQueryBuilder $queryBuilder): JsonResponse
+    public function localGovs(string $id, GeoLocalGovQueryBuilder $queryBuilder): JsonResponse
     {
         return $this->responder->selectable(
             builder: $queryBuilder

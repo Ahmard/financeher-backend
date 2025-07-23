@@ -89,7 +89,7 @@ class UserService extends BasePersistableService
             $this->userBusinessStageService->create(
                 createdBy: $user['id'],
                 userId: $user['id'],
-                typeId: $businessStageId,
+                stageId: $businessStageId,
             );
         }
 

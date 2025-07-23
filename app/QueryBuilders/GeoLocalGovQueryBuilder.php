@@ -10,14 +10,14 @@ class GeoLocalGovQueryBuilder extends BaseQueryBuilder
 {
     use SearchableQueryBuilderTrait;
 
-    public function filterByCountry(int $id): Builder
+    public function filterByCountry(string $id): Builder
     {
         return $this
             ->all()
             ->where('geo_local_govs.country_id', $id);
     }
 
-    public function filterByState(int $id): Builder
+    public function filterByState(string $id): Builder
     {
         return $this
             ->all()

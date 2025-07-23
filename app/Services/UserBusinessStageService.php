@@ -21,13 +21,13 @@ class UserBusinessStageService extends BasePersistableService
     public function create(
         int    $createdBy,
         int    $userId,
-        string $typeId,
+        string $stageId,
     ): UserBusinessStage|Model
     {
         return $this->repository->create(
             createdBy: $createdBy,
             userId: $userId,
-            typeId: $typeId,
+            stageId: $stageId,
         );
     }
 

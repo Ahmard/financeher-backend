@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Authentication;
 
+use App\Rules\EmailValidator;
 use App\Rules\PasswordValidator;
 use App\Rules\PhoneNumberValidator;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -27,12 +28,15 @@ class RegisterPostRequest extends FormRequest
         return [
             'first_name' => 'required|string|min:2|max:100',
             'last_name' => 'required|string|min:2|max:100',
-            'email' => 'required|email:rfc,dns|unique:users,email',
+            'email' => EmailValidator::rules(),
             'mobile_number' => ['required', PhoneNumberValidator::create(), 'unique:users,mobile_number'],
             'password' => ['required', PasswordValidator::create()],
             'country_id' => 'required|uuid|exists:geo_countries,id',
+            'business_type_ids' => 'required|array|min:1',
             'business_type_ids.*' => 'required|uuid|exists:business_types,id',
+            'business_stage_ids' => 'required|array|min:1',
             'business_stage_ids.*' => 'required|uuid|exists:business_stages,id',
+            'opportunity_type_ids' => 'required|array|min:1',
             'opportunity_type_ids.*' => 'required|uuid|exists:opportunity_types,id',
         ];
     }
