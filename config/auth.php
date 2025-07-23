@@ -94,6 +94,9 @@ return [
     |
     */
 
+    'password_reset_token_lifetime' => env('APP_AUTH_PASSWORD_RESET_TOKEN_LIFETIME_MINS'),
+    'user_suspension_period_minutes' => env('APP_AUTH_USER_SUSPENSION_PERIOD_MINS'),
+
     'passwords' => [
         'users' => [
             'provider' => 'users',

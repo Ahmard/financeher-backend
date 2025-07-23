@@ -42,7 +42,10 @@ return new class extends Migration {
 
             $table->rememberToken();
 
-            $table->timestamp('last_login_at')->nullable();
+            $table->timestampTz('last_login_at')->nullable();
+            $table->timestampTz('last_password_reset_at')->nullable();
+            $table->timestampTz('suspended_until')->nullable();
+
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -51,6 +54,7 @@ return new class extends Migration {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
         });
 
         Schema::create('sessions', function (Blueprint $table) {

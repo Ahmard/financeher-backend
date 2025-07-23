@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Authentication;
 
+use App\Rules\EmailValidator;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +24,7 @@ class EmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email:rfc,dns',
+            'email' => EmailValidator::rules(),
         ];
     }
 

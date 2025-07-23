@@ -28,7 +28,7 @@ class RegisterPostRequest extends FormRequest
         return [
             'first_name' => 'required|string|min:2|max:100',
             'last_name' => 'required|string|min:2|max:100',
-            'email' => EmailValidator::rules(),
+            'email' => EmailValidator::rules(uniqueEmail: true),
             'mobile_number' => ['required', PhoneNumberValidator::create(), 'unique:users,mobile_number'],
             'password' => ['required', PasswordValidator::create()],
             'country_id' => 'required|uuid|exists:geo_countries,id',

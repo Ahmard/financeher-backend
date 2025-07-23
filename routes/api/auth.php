@@ -16,6 +16,6 @@ Route::get('register/{uuid}/verify-token-validity', [RegisterController::class, 
 
 Route::prefix('password-reset')->group(function () {
     Route::post('', [PasswordResetController::class, 'initiate']);
-    Route::get('{token}/can-reset', [PasswordResetController::class, 'canReset']);
+    Route::get('{token}/verify-token-validity', [PasswordResetController::class, 'canReset']);
     Route::post('{token}/reset', [PasswordResetController::class, 'resetPassword']);
 });
