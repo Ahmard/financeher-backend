@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
      */
     public function run(UserService $service): void
     {
-        $faker = Factory::create();
+        $faker = Factory::create()->unique();
 
         $country = GeoCountry::query()
             ->whereRaw('LOWER(name) = ?', ['nigeria'])
@@ -42,18 +42,20 @@ class UserSeeder extends Seeder
             ->toArray();
 
         // pick random values from types
-        $businessTypeIds = array_rand($types, mt_rand(3, 6));
+        $businessTypeIds = fn() => array_map(fn(int $i) => $types[$i]['id'], array_rand($types, mt_rand(2, 4)));
+        $businessStageIds = fn() => array_map(fn(int $i) => $stages[$i]['id'], array_rand($stages, mt_rand(2, 4)));
+        $opportunityTypeIds = fn() => array_map(fn(int $i) => $opTypes[$i]['id'], array_rand($opTypes, mt_rand(2, 4)));
 
         $service->create(
             invitedBy: null,
             countryId: $country['id'],
-            businessTypeIds: array_rand($types, mt_rand(2, 4)),
-            businessStageIds: array_rand($stages, mt_rand(2, 4)),
-            opportunityTypeIds: array_rand($opTypes, mt_rand(2, 4)),
+            businessTypeIds: $businessTypeIds(),
+            businessStageIds: $businessStageIds(),
+            opportunityTypeIds: $opportunityTypeIds(),
             businessName: 'Financeher',
             firstName: 'Super',
             lastName: 'Admin',
-            email: 'super.admin@example.com',
+            email: 'super.admin@financeher.com',
             rawPassword: self::SEED_PASSWORD,
             mobileNumber: '07011223344',
             role: UserRole::SUPER_ADMIN,
@@ -62,9 +64,9 @@ class UserSeeder extends Seeder
         $service->create(
             invitedBy: null,
             countryId: $country['id'],
-            businessTypeIds: array_rand($types, mt_rand(1, 3)),
-            businessStageIds: array_rand($stages, mt_rand(1, 3)),
-            opportunityTypeIds: array_rand($opTypes, mt_rand(1, 3)),
+            businessTypeIds: $businessTypeIds(),
+            businessStageIds: $businessStageIds(),
+            opportunityTypeIds: $opportunityTypeIds(),
             businessName: 'SpiralOver',
             firstName: 'Ahmad',
             lastName: 'Mustapha',
@@ -80,9 +82,9 @@ class UserSeeder extends Seeder
             $service->create(
                 invitedBy: null,
                 countryId: $country['id'],
-                businessTypeIds: array_rand($types, mt_rand(1, 3)),
-                businessStageIds: array_rand($stages, mt_rand(1, 3)),
-                opportunityTypeIds: array_rand($opTypes, mt_rand(1, 3)),
+                businessTypeIds: $businessTypeIds(),
+                businessStageIds: $businessStageIds(),
+                opportunityTypeIds: $opportunityTypeIds(),
                 businessName: null,
                 firstName: $faker->firstName(),
                 lastName: $faker->lastName(),
