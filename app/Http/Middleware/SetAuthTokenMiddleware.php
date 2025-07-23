@@ -18,7 +18,9 @@ class SetAuthTokenMiddleware
         $authToken = $request->bearerToken();
         $authToken ??= $request->get('token');
         $request->headers->set('Authorization', "Bearer $authToken");
+        /**@phpstan-ignore-next-line **/
         auth()->setRequest($request);
+        /**@phpstan-ignore-next-line **/
         auth()->guard('api')->setRequest($request);
 
         return $next($request);

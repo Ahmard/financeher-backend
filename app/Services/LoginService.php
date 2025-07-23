@@ -55,7 +55,7 @@ class LoginService extends BaseService
     }
 
     /**
-     * @return array{access_token: string, token_type: string, expires_in: float|int, user: array}
+     * @return array{access_token: string, token_type: string, expires_in: int, expires_at: int}
      */
     public function logUserIn(User|Model $user): array
     {
@@ -80,7 +80,7 @@ class LoginService extends BaseService
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $expiresIn,
+            'expires_in' => intval($expiresIn),
             'expires_at' => $expiresIn + time(),
         ];
     }

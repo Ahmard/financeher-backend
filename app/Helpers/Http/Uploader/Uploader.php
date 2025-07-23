@@ -56,7 +56,6 @@ class Uploader
             $file = request()->file($fieldName);
         }
 
-        /**@phpstan-ignore-next-line **/
         if (!is_array($file)) {
             $file = [$file];
         }
