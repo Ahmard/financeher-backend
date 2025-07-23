@@ -116,7 +116,7 @@ class UserController extends Controller
     public function assignRoles(int $id, UserRoleAssignPostRequest $request, UserService $userService): JsonResponse
     {
         $userService->assignRole($id, intval($request->post('role_id')));
-        return $this->responder->successMessage('role assigned to user');
+        return $this->responder->successMessage('Role assigned successfully');
     }
 
     /**
@@ -128,7 +128,7 @@ class UserController extends Controller
     public function unassignRole(int $id, int $roleId, UserService $userService): JsonResponse
     {
         $userService->unassignRole($id, $roleId);
-        return $this->responder->successMessage('role assigned to user');
+        return $this->responder->successMessage('Role unassigned successfully');
     }
 
     /**
@@ -153,7 +153,10 @@ class UserController extends Controller
             reason: $request->reason(),
         );
 
-        return $this->responder->success($model);
+        return $this->responder->success(
+            data: $model,
+            message: 'User activated successfully'
+        );
     }
 
     /**
@@ -169,7 +172,10 @@ class UserController extends Controller
             reason: $request->reason(),
         );
 
-        return $this->responder->success($model);
+        return $this->responder->success(
+            data: $model,
+            message: 'User deactivated successfully'
+        );
     }
 
     public function resendVerificationEmail(int $id): JsonResponse

@@ -30,10 +30,6 @@ Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('/active', [UserController::class, 'active']);
     Route::get('/suspended', [UserController::class, 'suspended']);
-    Route::get('/admin-team-members', [UserController::class, 'adminTeamMembers']);
-    Route::get('/admin-team-members/active', [UserController::class, 'adminActiveTeamMembers']);
-    Route::get('/admin-team-members/pending', [UserController::class, 'adminPendingTeamMembers']);
-    Route::post('/admin-team-members/invite', [UserController::class, 'invite']);
     Route::get('{id}', [UserController::class, 'show']);
     Route::get('{id}/roles', [UserController::class, 'roles']);
     Route::post('{id}/roles', [UserController::class, 'assignRoles']);

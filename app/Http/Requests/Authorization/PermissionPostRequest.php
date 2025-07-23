@@ -24,6 +24,7 @@ class PermissionPostRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'permissions' => 'required|array',
             'permissions.*' => 'required|string|min:3'
         ];
     }

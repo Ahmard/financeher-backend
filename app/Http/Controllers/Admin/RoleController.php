@@ -36,13 +36,22 @@ class RoleController extends Controller
     public function store(RolePostRequest $request): JsonResponse
     {
         $role = Role::query()->create($request->validated());
-        return $this->responder->success($role);
+        return $this->responder->success(
+            data: $role,
+            message: 'Role created successfully'
+        );
     }
 
     public function update(int $id, RolePostRequest $request): JsonResponse
     {
         $role = Role::query()->find($id);
-        $role->update(['name' => $request->validated('name')]);
+        $newName = $request->validated('name');
+
+        if ($newName == $role->name) {
+            return $this->responder->warningMessage('Role name cannot be the same as the previous one.');
+        }
+
+        $role->update(['name' => $newName]);
         return $this->responder->success($role);
     }
 
