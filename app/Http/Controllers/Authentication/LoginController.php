@@ -48,7 +48,7 @@ class LoginController extends Controller
      */
     public function me(): JsonResponse
     {
-        /** @var User|Model $user */
+        /** @var User|Model|null $user */
         $user = Auth::user();
 
         if (empty($user)) {

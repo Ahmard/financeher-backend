@@ -14,7 +14,6 @@ parameters:
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:(.*)#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:(.*)#'
         - '#Trait (.*) is used zero times and is not analysed\.#'
-        - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:(.*)#'
 
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php

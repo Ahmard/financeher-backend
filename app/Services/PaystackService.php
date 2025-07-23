@@ -54,6 +54,8 @@ class PaystackService extends BaseService implements PaymentServiceInterface
                 paymentGateway: PaymentGateway::PAYSTACK
             );
 
+            $localReference = PaymentHelper::generateLocalReference();
+
             $payment = $this->paymentRepository->init(
                 payerId: $payer['id'],
                 amount: $amount,
@@ -61,12 +63,11 @@ class PaystackService extends BaseService implements PaymentServiceInterface
                 computedAmount: $computed['computed_amount'],
                 ipAddress: $ipAddress,
                 userAgent: $userAgent,
+                reference: $localReference,
                 purpose: $purpose,
                 metadata: $metadata,
                 paymentGateway: PaymentGateway::PAYSTACK,
             );
-
-            $localReference = PaymentHelper::generateLocalReference();
 
             if (defined('IS_MIGRATING')) {  // Migrating
                 $reference = uniqid(prefix: 'fake-');

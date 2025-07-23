@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\Types\LogTrailEntityType;
 use App\Models\UserBusinessStage;
 use App\Repositories\BaseRepository;
 use App\Repositories\UserBusinessStageRepository;
@@ -10,8 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserBusinessStageService extends BasePersistableService
 {
-    private LogTrailEntityType $logTrailEntityType = LogTrailEntityType::USER_BUSINESS_STAGE;
-
     public function __construct(
         private readonly UserBusinessStageRepository $repository,
     )
