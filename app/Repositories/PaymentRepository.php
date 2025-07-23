@@ -13,8 +13,7 @@ class PaymentRepository extends BaseRepository
 {
     public function __construct(
         protected readonly PaymentQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function findByReference(string $ref): Payment|Model|null
@@ -61,8 +60,7 @@ class PaymentRepository extends BaseRepository
         array          $metadata = [],
         PaymentStatus $status = PaymentStatus::PENDING,
         PaymentGateway $paymentGateway = PaymentGateway::MONNIFY,
-    ): Model|Payment
-    {
+    ): Model|Payment {
         return $this->create([
             'payer_id' => $payerId,
             'amount' => $amount,

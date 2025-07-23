@@ -16,8 +16,7 @@ class PasswordResetController extends Controller
     public function __construct(
         private readonly Responder            $responder,
         private readonly PasswordResetService $service,
-    )
-    {
+    ) {
     }
 
     /**

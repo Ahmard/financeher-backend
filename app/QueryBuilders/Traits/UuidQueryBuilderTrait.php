@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait UuidQueryBuilderTrait
 {
-
     public function filterByUuid(string $uuid): Builder
     {
         $builder = $this->all();

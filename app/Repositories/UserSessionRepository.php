@@ -14,8 +14,7 @@ class UserSessionRepository extends BaseRepository
 
     public function __construct(
         private readonly UserSessionQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(int $userId, string $jti): UserSession|Model

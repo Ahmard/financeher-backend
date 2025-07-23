@@ -40,8 +40,7 @@ class UserService extends BasePersistableService
         private readonly UserBusinessTypeService    $userBusinessTypeService,
         private readonly UserBusinessStageService   $userBusinessStageService,
         private readonly UserOpportunityTypeService $userOpportunityTypeService,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -60,8 +59,7 @@ class UserService extends BasePersistableService
         bool       $withVerificationEmail = false,
         UserRole   $role = UserRole::USER,
         UserStatus $status = UserStatus::ACTIVE,
-    ): User|Model
-    {
+    ): User|Model {
         $token = md5(Uuid::uuid4() . Uuid::uuid4());
         $user = $this->repository->create(
             invitedBy: $invitedBy,
@@ -151,8 +149,7 @@ class UserService extends BasePersistableService
         string  $mobileNumber,
         ?string $profilePicture = null,
         ?string $nin = null,
-    ): Model|User
-    {
+    ): Model|User {
         return $this->repository->update(
             id: $id,
             firstName: $firstName,
@@ -169,8 +166,7 @@ class UserService extends BasePersistableService
         int                 $activatedBy,
         string              $reason,
         ?LogTrailEntityType $subPawnType = null
-    ): Model|User
-    {
+    ): Model|User {
         $user = $this->repository->changeStatus(
             id: $id,
             status: UserStatus::ACTIVE
@@ -195,8 +191,7 @@ class UserService extends BasePersistableService
         int                 $deactivatedBy,
         string              $reason,
         ?LogTrailEntityType $subPawnType = null
-    ): Model|User
-    {
+    ): Model|User {
         $user = $this->repository->changeStatus(
             id: $id,
             status: UserStatus::INACTIVE

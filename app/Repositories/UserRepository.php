@@ -17,8 +17,7 @@ class UserRepository extends BaseRepository
 {
     public function __construct(
         private readonly UserQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -33,8 +32,7 @@ class UserRepository extends BaseRepository
         string     $accountVerificationToken,
         ?string    $profilePicture = null,
         UserStatus $status = UserStatus::ACTIVE,
-    ): User|Model
-    {
+    ): User|Model {
         return User::query()->create([
             'country_id' => $countryId,
             'invited_by' => $invitedBy,
@@ -59,8 +57,7 @@ class UserRepository extends BaseRepository
         string  $mobileNumber,
         ?string $profilePicture = null,
         ?string $nin = null,
-    ): Model|User
-    {
+    ): Model|User {
         $user = $this->findRequiredById($id);
         $user->update([
             'first_name' => $firstName,

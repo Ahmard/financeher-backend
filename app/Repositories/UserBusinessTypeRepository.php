@@ -10,16 +10,14 @@ class UserBusinessTypeRepository extends BaseRepository
 {
     public function __construct(
         private readonly UserBusinessTypeQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
         int    $createdBy,
         int    $userId,
         string $typeId,
-    ): UserBusinessType|Model
-    {
+    ): UserBusinessType|Model {
         return UserBusinessType::query()->create([
             'created_by' => $createdBy,
             'user_id' => $userId,

@@ -12,8 +12,7 @@ class WalletRepository extends BaseRepository
 {
     public function __construct(
         private readonly WalletQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(int $userId): Wallet|Model

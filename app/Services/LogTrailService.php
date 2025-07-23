@@ -12,8 +12,7 @@ class LogTrailService extends BaseService
 {
     public function __construct(
         public readonly LogTrailRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -25,8 +24,7 @@ class LogTrailService extends BaseService
         array|BaseModel|Model $data = [],
         ?string               $reason = null,
         ?LogTrailEntityType   $entitySubType = null,
-    ): void
-    {
+    ): void {
         if ($data instanceof BaseModel) {
             if (!$data->isReallyUpdated() && $action != LogTrailActionType::CREATE) {
                 return;

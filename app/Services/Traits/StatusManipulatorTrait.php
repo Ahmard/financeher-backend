@@ -24,8 +24,7 @@ trait StatusManipulatorTrait
         string     $reason,
         ?int       $ownerId = null,
         array      $additionalFields = [],
-    ): Model
-    {
+    ): Model {
         $model = match (isset($ownerId)) {
             true => $this->repository->withOwnerId($ownerId)->findRequiredById($id),
             default => $this->repository->findRequiredById($id),
@@ -63,8 +62,7 @@ trait StatusManipulatorTrait
         string     $reason,
         ?int       $ownerId = null,
         array      $additionalFields = [],
-    ): Model
-    {
+    ): Model {
         $model = match (isset($ownerId)) {
             true => $this->repository->withOwnerId($ownerId)->findRequiredById($id),
             default => $this->repository->findRequiredById($id),

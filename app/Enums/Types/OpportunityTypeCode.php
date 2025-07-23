@@ -242,19 +242,19 @@ enum OpportunityTypeCode: string
 
     public static function getAllCodes(): array
     {
-        return array_map(fn($case) => $case->value, self::cases());
+        return array_map(fn ($case) => $case->value, self::cases());
     }
 
     public static function getAllDisplayNames(): array
     {
-        return array_map(fn($case) => $case->getDisplayName(), self::cases());
+        return array_map(fn ($case) => $case->getDisplayName(), self::cases());
     }
 
     public static function getByCategory(string $category): array
     {
         return array_filter(
             self::cases(),
-            fn($case) => $case->getCategory() === $category
+            fn ($case) => $case->getCategory() === $category
         );
     }
 
@@ -267,7 +267,7 @@ enum OpportunityTypeCode: string
     {
         return array_filter(
             self::cases(),
-            fn($case) => $case->getCategory() !== 'Funding'
+            fn ($case) => $case->getCategory() !== 'Funding'
         );
     }
 

@@ -15,7 +15,6 @@ readonly class PaymentVerificationDto
         public Payment|Model  $payment,
         public PaymentStatus  $status,
         public PaymentGateway $gateway,
-    )
-    {
+    ) {
     }
 }

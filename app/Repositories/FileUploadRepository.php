@@ -15,8 +15,7 @@ class FileUploadRepository extends BaseRepository
 
     public function __construct(
         public readonly FileUploadQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     /**
@@ -39,8 +38,7 @@ class FileUploadRepository extends BaseRepository
         string     $fileExt,
         ?string    $desc = null,
         ?string    $additionalInfo = null,
-    ): Model|FileUpload
-    {
+    ): Model|FileUpload {
         return FileUpload::query()->create([
             'user_id' => $userId,
             'entity_type' => $entity->lowercase(),

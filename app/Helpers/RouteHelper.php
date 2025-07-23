@@ -19,8 +19,7 @@ class RouteHelper
         string $controller,
         string $permission,
         bool   $withStatus = false
-    ): void
-    {
+    ): void {
         if ($withStatus) {
             self::apiResourceWithStatus($name, $controller, $permission);
         } else {
@@ -41,8 +40,7 @@ class RouteHelper
         string $name,
         string $controller,
         string $permission
-    ): void
-    {
+    ): void {
         self::apiResource($name, $controller, $permission);
         Route::patch("$name/{id}/activate", [$controller, 'activate'])->middleware($permission::customMiddlewarePermission('activate'));
         Route::patch("$name/{id}/deactivate", [$controller, 'deactivate'])->middleware($permission::customMiddlewarePermission('deactivate'));
@@ -58,8 +56,7 @@ class RouteHelper
         string $name,
         string $controller,
         string $permission
-    ): void
-    {
+    ): void {
         Route::get($name, [$controller, 'index'])->middleware($permission::customMiddlewarePermission('list'));
         Route::post($name, [$controller, 'store'])->middleware($permission::customMiddlewarePermission('create'));
         Route::get("$name/{id}", [$controller, 'show'])->middleware($permission::customMiddlewarePermission('read'));

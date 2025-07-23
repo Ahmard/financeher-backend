@@ -12,8 +12,7 @@ class WalletHistoryRepository extends BaseRepository
 {
     public function __construct(
         private readonly WalletHistoryQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -21,8 +20,7 @@ class WalletHistoryRepository extends BaseRepository
         float        $amount,
         string       $narration,
         WalletAction $action
-    ): WalletHistory|Model
-    {
+    ): WalletHistory|Model {
         return WalletHistory::query()->create([
             'wallet_id' => $wallet['id'],
             'balance_before' => $wallet['balance'],

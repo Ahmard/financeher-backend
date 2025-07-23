@@ -15,16 +15,14 @@ class PasswordResetRepository extends BaseRepository
 {
     public function __construct(
         private readonly PasswordResetQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
         string                     $email,
         string                     $token,
         \Illuminate\Support\Carbon $expiry
-    ): PasswordReset|Model
-    {
+    ): PasswordReset|Model {
         return PasswordReset::query()->create([
             'email' => $email,
             'token' => $token,

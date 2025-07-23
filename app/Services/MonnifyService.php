@@ -26,8 +26,7 @@ class MonnifyService extends BaseService implements PaymentServiceInterface
 {
     public function __construct(
         protected readonly PaymentRepository $paymentRepository,
-    )
-    {
+    ) {
     }
 
     /**
@@ -51,8 +50,7 @@ class MonnifyService extends BaseService implements PaymentServiceInterface
         PaymentPurpose $purpose = PaymentPurpose::WALLET_FUNDING,
         ?string        $callbackUrlPrefix = null,
         array|object   $metadata = [],
-    ): Payment|Model
-    {
+    ): Payment|Model {
         $precisedAmount = round(num: $amount, precision: 2);
 
         try {

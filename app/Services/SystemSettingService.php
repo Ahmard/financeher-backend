@@ -12,8 +12,7 @@ class SystemSettingService extends BaseService
 {
     public function __construct(
         public readonly SystemSettingRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function updateItem(SystemSettingDefinition $definition, string|int $value): void
@@ -32,8 +31,7 @@ class SystemSettingService extends BaseService
         int   $createdBy,
         array $data,
         bool  $allowUpdatingStandalone = false
-    ): Model|SystemSetting
-    {
+    ): Model|SystemSetting {
         $settings = defined('IS_MIGRATING')
             ? $data
             : array_merge($this->repository->getActive()->toArray(), $data);

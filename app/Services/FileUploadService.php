@@ -18,8 +18,7 @@ class FileUploadService extends BaseService
     public function __construct(
         public readonly FileUploadRepository $repository,
         protected readonly LogTrailService   $logTrailService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -39,8 +38,7 @@ class FileUploadService extends BaseService
         string     $fieldName,
         ?string    $desc = null,
         ?string    $additionalInfo = null,
-    ): array
-    {
+    ): array {
         $files = Uploader::upload($fieldName);
         $uploads = [];
 
@@ -91,8 +89,7 @@ class FileUploadService extends BaseService
         string     $fileRelativePath,
         ?string    $desc = null,
         ?string    $additionalInfo = null,
-    ): Model|FileUpload
-    {
+    ): Model|FileUpload {
         $expFilePath = explode('.', $fileRelativePath);
         $ext = end($expFilePath);
 
@@ -113,8 +110,7 @@ class FileUploadService extends BaseService
         int    $id,
         Entity $entity,
         int    $ownerId
-    ): void
-    {
+    ): void {
         $this->repository->delete(
             entity: $entity,
             ownerId: $ownerId,

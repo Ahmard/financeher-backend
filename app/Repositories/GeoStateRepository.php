@@ -11,8 +11,7 @@ class GeoStateRepository extends BaseRepository
 {
     public function __construct(
         private readonly GeoStateQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(string $countryId, string $name, string $code): GeoState|Model

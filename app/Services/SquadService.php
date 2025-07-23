@@ -19,8 +19,7 @@ class SquadService extends BaseService implements PaymentServiceInterface
 {
     public function __construct(
         protected readonly PaymentRepository $paymentRepository,
-    )
-    {
+    ) {
     }
 
     public function initPayment(
@@ -31,8 +30,7 @@ class SquadService extends BaseService implements PaymentServiceInterface
         PaymentPurpose $purpose = PaymentPurpose::WALLET_FUNDING,
         ?string        $callbackUrlPrefix = null,
         object|array $metadata = []
-    ): Payment|Model
-    {
+    ): Payment|Model {
         $computed = PaymentHelper::calculateCharges(
             amount: $amount,
             paymentGateway: PaymentGateway::SQUAD

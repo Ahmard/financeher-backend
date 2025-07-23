@@ -13,8 +13,7 @@ class LogTrailRepository extends BaseRepository
 {
     public function __construct(
         public readonly LogTrailQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -27,8 +26,7 @@ class LogTrailRepository extends BaseRepository
         array               $data,
         ?string             $reason = null,
         ?LogTrailEntityType $entitySubType = null,
-    ): Model|LogTrail
-    {
+    ): Model|LogTrail {
         return LogTrail::query()->create([
             'ip_address' => $ipAddress,
             'user_id' => $userId,

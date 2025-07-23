@@ -14,8 +14,7 @@ class SystemSettingRepository extends BaseRepository
 
     public function __construct(
         protected readonly SystemSettingQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function pluck(SystemSettingDefinition $item): mixed

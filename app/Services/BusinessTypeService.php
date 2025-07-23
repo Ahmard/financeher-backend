@@ -16,8 +16,7 @@ class BusinessTypeService extends BasePersistableService
     public function __construct(
         private readonly BusinessTypeRepository $repository,
         private readonly LogTrailService        $logTrailService,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -25,8 +24,7 @@ class BusinessTypeService extends BasePersistableService
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessType|Model
-    {
+    ): BusinessType|Model {
         return $this->repository->create(
             createdBy: $createdBy,
             name: $name,
@@ -42,8 +40,7 @@ class BusinessTypeService extends BasePersistableService
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessType|Model
-    {
+    ): BusinessType|Model {
         $type = $this->repository->update(
             id: $id,
             name: $name,

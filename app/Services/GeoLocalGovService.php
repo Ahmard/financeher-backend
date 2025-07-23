@@ -11,8 +11,7 @@ class GeoLocalGovService extends BasePersistableService
 {
     public function __construct(
         private readonly GeoLocalGovRepository $repository,
-    )
-    {
+    ) {
     }
 
 
@@ -21,8 +20,7 @@ class GeoLocalGovService extends BasePersistableService
         string  $stateId,
         string  $name,
         ?string $code,
-    ): GeoLocalGov|Model
-    {
+    ): GeoLocalGov|Model {
         return $this->repository->create(
             countryId: $countryId,
             stateId: $stateId,

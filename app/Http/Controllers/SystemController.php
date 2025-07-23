@@ -13,8 +13,7 @@ class SystemController extends Controller
 {
     public function __construct(
         private readonly Responder $responder,
-    )
-    {
+    ) {
     }
 
     public function healthCheck(): JsonResponse

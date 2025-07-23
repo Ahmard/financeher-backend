@@ -12,7 +12,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class SendEmailJob implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected array $mailData;
 
@@ -80,7 +82,7 @@ class SendEmailJob implements ShouldQueue
             Log::info(sprintf('Job(%s) failed', $this->job?->getJobId()));
             Log::error('Failed to send email: ' . $mail->ErrorInfo);
             Log::error($e);
-            throw new $e;
+            throw new $e();
         }
     }
 }

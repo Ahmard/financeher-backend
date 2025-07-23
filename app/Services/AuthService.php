@@ -24,8 +24,7 @@ class AuthService extends BaseService
         private readonly MailService              $mailService,
         private readonly UserService              $userService,
         private readonly LogTrailService          $logTrailService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -99,8 +98,7 @@ class AuthService extends BaseService
         ?string    $mobileNumber,
         ?string    $profilePicture = null,
         UserStatus $status = UserStatus::ACTIVE,
-    ): User|Model
-    {
+    ): User|Model {
         return $this->registerService->create(
             countryId: $countryId,
             businessTypeIds: $businessTypeIds,
@@ -128,8 +126,7 @@ class AuthService extends BaseService
         User|Model $user,
         string     $oldPassword,
         string     $password
-    ): void
-    {
+    ): void {
         if ($password == $oldPassword) {
             throw new WarningException('New password cannot be same as old password');
         }
@@ -209,7 +206,7 @@ class AuthService extends BaseService
     public function getUserPermissionNames(int|User|Authenticatable $user): array
     {
         $user = $this->getUser($user);
-        return array_map(fn(array $p) => $p['name'], $user->getAllPermissions()->toArray());
+        return array_map(fn (array $p) => $p['name'], $user->getAllPermissions()->toArray());
     }
 
     public function getSystemAccount(): Model|User

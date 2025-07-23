@@ -11,8 +11,7 @@ class RegisterService extends BaseService
 {
     public function __construct(
         private readonly UserService $userService,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -28,8 +27,7 @@ class RegisterService extends BaseService
         ?string    $mobileNumber,
         ?string    $profilePicture = null,
         UserStatus $status = UserStatus::ACTIVE,
-    ): User|Model
-    {
+    ): User|Model {
         $existingEmail = $this->userService->repository()->findByEmail($email);
         if (null != $existingEmail) {
             throw new WarningException('Account with provided email address already exists');

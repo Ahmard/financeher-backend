@@ -11,8 +11,7 @@ class GeoCountryService extends BasePersistableService
 {
     public function __construct(
         private readonly GeoCountryRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -21,8 +20,7 @@ class GeoCountryService extends BasePersistableService
         string $capital,
         string $region,
         string $subregion,
-    ): GeoCountry|Model
-    {
+    ): GeoCountry|Model {
         return $this->repository->create(
             name: $name,
             code: $code,

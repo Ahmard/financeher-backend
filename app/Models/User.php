@@ -22,7 +22,8 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     use HasRoles {
         hasRole as has_role;
@@ -109,8 +110,7 @@ class User extends Authenticatable implements JWTSubject
         string  $table = 'users',
         ?string $prefix = null,
         string  $as = 'full_name'
-    ): Expression
-    {
+    ): Expression {
         $columns = self::getDatatableFilterFullNameColumn(
             table: $table,
             prefix: $prefix,
@@ -124,8 +124,7 @@ class User extends Authenticatable implements JWTSubject
         string  $table = 'users',
         ?string $prefix = '',
         bool    $searchable = true
-    ): string
-    {
+    ): string {
         $sql = match (empty($prefix)) {
             true => "TRIM(CONCAT($table.first_name, ' ', $table.last_name))",
             false => "TRIM(CONCAT($table.{$prefix}_first_name, ' ', $table.{$prefix}_last_name))"

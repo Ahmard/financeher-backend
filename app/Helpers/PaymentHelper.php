@@ -21,8 +21,7 @@ class PaymentHelper
         PaymentGateway $paymentGateway,
         bool           $isVAN = false,
         bool           $isCard = false
-    ): array
-    {
+    ): array {
         return match ($paymentGateway) {
             PaymentGateway::PAYSTACK => self::paystack($amount),
             PaymentGateway::MONNIFY => self::moniepoint($amount, $isVAN, $isCard),
@@ -90,7 +89,7 @@ class PaymentHelper
         $mpCharges = $isCard
             ? SettingHelper::getFloat(SystemSettingDefinition::MONIEPOINT_CARD_CHARGES)
             : (
-            $isVAN
+                $isVAN
                 ? SettingHelper::getFloat(SystemSettingDefinition::MONIEPOINT_VAN_TRANSFER_CHARGES)
                 : SettingHelper::getFloat(SystemSettingDefinition::MONIEPOINT_TRANSFER_CHARGES)
             );

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 abstract class Controller
 {
-
-
     public function getFilter(string $name): ?string
     {
         $params = request()->get('filter') ?? [];

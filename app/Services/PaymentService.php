@@ -34,8 +34,7 @@ class PaymentService extends BaseService
         protected readonly SquadService    $squadService,
         protected readonly RemittaService  $remittaService,
         private readonly WalletService     $walletService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -60,8 +59,7 @@ class PaymentService extends BaseService
         PaymentPurpose             $purpose = PaymentPurpose::WALLET_FUNDING,
         ?string                    $callbackUrlPrefix = null,
         array|object               $metadata = [],
-    ): Payment|Model
-    {
+    ): Payment|Model {
         SettingHelper::ensureModuleIsActive(SystemSettingDefinition::PAYMENT_MODULE_STATUS);
 
         return match (PaymentGateway::fromName(SettingHelper::get(SystemSettingDefinition::PAYMENT_GATEWAY))) {
@@ -178,8 +176,7 @@ class PaymentService extends BaseService
         Payment|Model             $payment,
         PaymentGateway            $paymentGateway,
         PaymentVerificationMethod $verificationMethod,
-    ): Model|Payment
-    {
+    ): Model|Payment {
         $responsePaidAmount = match ($paymentGateway) {
             // MONIEPOINT
             PaymentGateway::MONNIFY => $verificationMethod === PaymentVerificationMethod::POLLING
@@ -258,8 +255,7 @@ class PaymentService extends BaseService
         bool           $isVAN = false,
         bool           $isCard = false,
         bool           $isDirectTransfer = false,
-    ): Model|Payment
-    {
+    ): Model|Payment {
         $charges = PaymentHelper::calculateCharges(
             amount: $amount,
             paymentGateway: $paymentGateway,

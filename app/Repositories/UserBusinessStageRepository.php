@@ -10,16 +10,14 @@ class UserBusinessStageRepository extends BaseRepository
 {
     public function __construct(
         private readonly UserBusinessStageQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
         int    $createdBy,
         int    $userId,
         string $stageId,
-    ): UserBusinessStage|Model
-    {
+    ): UserBusinessStage|Model {
         return UserBusinessStage::query()->create([
             'created_by' => $createdBy,
             'user_id' => $userId,

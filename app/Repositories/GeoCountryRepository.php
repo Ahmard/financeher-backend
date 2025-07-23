@@ -11,8 +11,7 @@ class GeoCountryRepository extends BaseRepository
 {
     public function __construct(
         private readonly GeoCountryQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -21,8 +20,7 @@ class GeoCountryRepository extends BaseRepository
         string $capital,
         string $region,
         string $subregion,
-    ): GeoCountry|Model
-    {
+    ): GeoCountry|Model {
         return GeoCountry::query()->create([
             'name' => $name,
             'code' => $code,

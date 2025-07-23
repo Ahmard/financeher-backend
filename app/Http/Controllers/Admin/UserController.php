@@ -21,8 +21,7 @@ class UserController extends Controller
     public function __construct(
         private readonly Responder   $responder,
         private readonly UserService $service
-    )
-    {
+    ) {
     }
 
     /**

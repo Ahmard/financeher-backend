@@ -21,8 +21,7 @@ class PaymentController extends Controller
     public function __construct(
         private readonly Responder      $responder,
         private readonly PaymentService $service,
-    )
-    {
+    ) {
     }
 
     /**

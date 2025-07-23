@@ -15,8 +15,7 @@ class OpportunityTypeService extends BasePersistableService
     public function __construct(
         private readonly OpportunityTypeRepository $repository,
         private readonly LogTrailService           $logTrailService,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -24,8 +23,7 @@ class OpportunityTypeService extends BasePersistableService
         string  $name,
         ?string $code,
         string  $desc
-    ): OpportunityType|Model
-    {
+    ): OpportunityType|Model {
         return $this->repository->create(
             createdBy: $createdBy,
             name: $name,
@@ -41,8 +39,7 @@ class OpportunityTypeService extends BasePersistableService
         string  $name,
         ?string $code,
         string  $desc
-    ): OpportunityType|Model
-    {
+    ): OpportunityType|Model {
         $type = $this->repository->update(
             id: $id,
             name: $name,

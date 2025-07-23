@@ -23,8 +23,7 @@ class WalletController extends Controller
     public function __construct(
         protected readonly Responder   $responder,
         private readonly WalletService $service,
-    )
-    {
+    ) {
     }
 
     /**

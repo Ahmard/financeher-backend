@@ -14,8 +14,7 @@ class PasswordResetService extends BasePersistableService
         private readonly PasswordResetRepository $repository,
         private readonly UserService             $userService,
         private readonly MailService             $mailService,
-    )
-    {
+    ) {
     }
 
     public function create(string $email): void

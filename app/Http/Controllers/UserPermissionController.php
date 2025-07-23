@@ -16,8 +16,7 @@ class UserPermissionController extends Controller
     public function __construct(
         private readonly Responder      $responder,
         private readonly UserRepository $userRepository,
-    )
-    {
+    ) {
     }
 
     /**
@@ -39,7 +38,7 @@ class UserPermissionController extends Controller
     public function addPermissions(int $id, PermissionPostRequest $request): JsonResponse
     {
         $permissions = array_intersect(
-            array_map(fn(string $p) => strtolower($p), (array)$request->post('permissions')),
+            array_map(fn (string $p) => strtolower($p), (array)$request->post('permissions')),
             RoleHelper::getPermissionNames()
         );
 
@@ -78,7 +77,7 @@ class UserPermissionController extends Controller
 
         $allPermissions = RoleHelper::getPermissions();
         $userPermissions = $user->getAllPermissions()
-            ->map(fn($p) => $p['name'])
+            ->map(fn ($p) => $p['name'])
             ->toArray();
 
         $assignable = [];

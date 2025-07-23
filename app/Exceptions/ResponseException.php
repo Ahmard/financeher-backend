@@ -20,12 +20,11 @@ class ResponseException extends Exception
     }
 
     public function __construct(
-        protected                   $message,
-        protected                   $code = 500,
+        protected $message,
+        protected $code = 500,
         private readonly StatusCode $statusCode = StatusCode::UNAUTHORIZED,
         ?Throwable                  $previous = null
-    )
-    {
+    ) {
         parent::__construct($message, $this->statusCode->value, $previous);
     }
 

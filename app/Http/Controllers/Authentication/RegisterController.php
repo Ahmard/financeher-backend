@@ -20,8 +20,7 @@ class RegisterController extends Controller
     public function __construct(
         private readonly Responder   $responder,
         private readonly AuthService $authService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -61,8 +60,7 @@ class RegisterController extends Controller
         string          $token,
         PasswordRequest $request,
         LoginService    $loginService,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $user = $this->authService->verifyOnboardingToken(
             token: $token,
             password: $request->password()

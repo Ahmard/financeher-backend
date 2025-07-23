@@ -22,8 +22,7 @@ class PaystackService extends BaseService implements PaymentServiceInterface
 {
     public function __construct(
         protected readonly PaymentRepository $paymentRepository,
-    )
-    {
+    ) {
     }
 
     /**
@@ -46,8 +45,7 @@ class PaystackService extends BaseService implements PaymentServiceInterface
         PaymentPurpose $purpose = PaymentPurpose::WALLET_FUNDING,
         ?string        $callbackUrlPrefix = null,
         array|object   $metadata = [],
-    ): Payment|Model
-    {
+    ): Payment|Model {
         try {
             $computed = PaymentHelper::calculateCharges(
                 amount: $amount,

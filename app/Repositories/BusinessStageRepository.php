@@ -10,8 +10,7 @@ class BusinessStageRepository extends BaseRepository
 {
     public function __construct(
         private readonly BusinessStageQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -19,8 +18,7 @@ class BusinessStageRepository extends BaseRepository
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessStage|Model
-    {
+    ): BusinessStage|Model {
         return BusinessStage::query()->create([
             'created_by' => $createdBy,
             'name' => $name,
@@ -34,8 +32,7 @@ class BusinessStageRepository extends BaseRepository
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessStage|Model
-    {
+    ): BusinessStage|Model {
         $stage = $this->findRequiredById($id);
         $stage->update([
             'name' => $name,

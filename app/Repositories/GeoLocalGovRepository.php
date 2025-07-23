@@ -11,8 +11,7 @@ class GeoLocalGovRepository extends BaseRepository
 {
     public function __construct(
         private readonly GeoLocalGovQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -20,8 +19,7 @@ class GeoLocalGovRepository extends BaseRepository
         string  $stateId,
         string  $name,
         ?string $code,
-    ): GeoLocalGov|Model
-    {
+    ): GeoLocalGov|Model {
         return GeoLocalGov::query()->create([
             'country_id' => $countryId,
             'state_id' => $stateId,

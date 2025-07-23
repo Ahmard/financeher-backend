@@ -72,12 +72,12 @@ enum BusinessTypeCode: string implements DBCompatibleEnumInterface
 
     public static function getAllCodes(): array
     {
-        return array_map(fn($case) => $case->value, self::cases());
+        return array_map(fn ($case) => $case->value, self::cases());
     }
 
     public static function getAllDisplayNames(): array
     {
-        return array_map(fn($case) => $case->getDisplayName(), self::cases());
+        return array_map(fn ($case) => $case->getDisplayName(), self::cases());
     }
 
     public static function fromCode(string $code): ?self

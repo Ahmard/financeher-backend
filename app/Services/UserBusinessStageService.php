@@ -11,16 +11,14 @@ class UserBusinessStageService extends BasePersistableService
 {
     public function __construct(
         private readonly UserBusinessStageRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function create(
         int    $createdBy,
         int    $userId,
         string $stageId,
-    ): UserBusinessStage|Model
-    {
+    ): UserBusinessStage|Model {
         return $this->repository->create(
             createdBy: $createdBy,
             userId: $userId,

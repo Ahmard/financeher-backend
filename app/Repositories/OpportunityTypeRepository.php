@@ -13,8 +13,7 @@ class OpportunityTypeRepository extends BaseRepository
 {
     public function __construct(
         private readonly OpportunityTypeQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -22,8 +21,7 @@ class OpportunityTypeRepository extends BaseRepository
         string  $name,
         ?string $code,
         string  $desc
-    ): OpportunityType|Model
-    {
+    ): OpportunityType|Model {
         return OpportunityType::query()->create([
             'created_by' => $createdBy,
             'name' => $name,
@@ -37,8 +35,7 @@ class OpportunityTypeRepository extends BaseRepository
         string  $name,
         ?string $code,
         string  $desc
-    ): OpportunityType|Model
-    {
+    ): OpportunityType|Model {
         $type = $this->findRequiredById($id);
         $type->update([
             'name' => $name,

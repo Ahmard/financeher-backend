@@ -17,8 +17,7 @@ class ProfileController extends Controller
     public function __construct(
         private readonly UserService $userService,
         private readonly Responder $responder,
-    )
-    {
+    ) {
     }
 
     public function info(): JsonResponse

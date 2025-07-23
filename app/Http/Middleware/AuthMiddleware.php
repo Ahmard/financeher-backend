@@ -17,8 +17,7 @@ readonly class AuthMiddleware
 {
     public function __construct(
         private UserSessionRepository $userSessionRepository,
-    )
-    {
+    ) {
     }
 
     /**

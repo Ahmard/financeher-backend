@@ -38,8 +38,7 @@ class RemittaService extends BaseService implements PaymentServiceInterface
         PaymentPurpose $purpose = PaymentPurpose::WALLET_FUNDING,
         ?string        $callbackUrlPrefix = null,
         object|array   $metadata = [],
-    ): Payment|Model
-    {
+    ): Payment|Model {
         ['orderId' => $orderId, 'hash' => $apiHash] = $this->makeNewTransactionData($amount);
 
         // Prepare the request body

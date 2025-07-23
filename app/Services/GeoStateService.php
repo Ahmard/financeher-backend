@@ -11,8 +11,7 @@ class GeoStateService extends BasePersistableService
 {
     public function __construct(
         private readonly GeoStateRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function create(string $countryId, string $name, string $code): GeoState|Model

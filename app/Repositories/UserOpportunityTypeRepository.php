@@ -10,16 +10,14 @@ class UserOpportunityTypeRepository extends BaseRepository
 {
     public function __construct(
         private readonly UserOpportunityTypeQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
         int    $createdBy,
         int    $userId,
         string $typeId,
-    ): UserOpportunityType|Model
-    {
+    ): UserOpportunityType|Model {
         return UserOpportunityType::query()->create([
             'created_by' => $createdBy,
             'user_id' => $userId,

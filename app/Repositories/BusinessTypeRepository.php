@@ -10,8 +10,7 @@ class BusinessTypeRepository extends BaseRepository
 {
     public function __construct(
         private readonly BusinessTypeQueryBuilder $queryBuilder,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -19,8 +18,7 @@ class BusinessTypeRepository extends BaseRepository
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessType|Model
-    {
+    ): BusinessType|Model {
         return BusinessType::query()->create([
             'created_by' => $createdBy,
             'name' => $name,
@@ -34,8 +32,7 @@ class BusinessTypeRepository extends BaseRepository
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessType|Model
-    {
+    ): BusinessType|Model {
         $type = $this->findRequiredById($id);
         $type->update([
             'name' => $name,

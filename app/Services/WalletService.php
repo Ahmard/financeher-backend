@@ -26,8 +26,7 @@ class WalletService extends BasePersistableService
         private readonly WalletHistoryRepository $walletHistoryRepository,
         private readonly MailService             $mailService,
         private readonly UserRepository          $userRepository,
-    )
-    {
+    ) {
     }
 
     public function create(int $userId): Wallet|Model
@@ -49,11 +48,14 @@ class WalletService extends BasePersistableService
         string $narration,
         bool   $withEmailNotification = true,
         bool   $throwOnInsufficientBalance = true
-    ): Wallet|Model
-    {
+    ): Wallet|Model {
         return DB::transaction(function () use (
-            &$wallet, $amount, $narration,
-            $userId, $withEmailNotification, $throwOnInsufficientBalance
+            &$wallet,
+            $amount,
+            $narration,
+            $userId,
+            $withEmailNotification,
+            $throwOnInsufficientBalance
         ) {
             $wallet = $this->repository->findLockedByUserId($userId);
 
@@ -98,8 +100,7 @@ class WalletService extends BasePersistableService
         int $userId,
         int     $amount,
         string  $narration,
-    ): Wallet|Model
-    {
+    ): Wallet|Model {
         return DB::transaction(function () use ($amount, $narration, $userId) {
             $wallet = $this->repository->findLockedByUserId($userId);
 

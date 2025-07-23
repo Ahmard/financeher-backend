@@ -16,8 +16,7 @@ class BusinessStageService extends BasePersistableService
     public function __construct(
         private readonly BusinessStageRepository $repository,
         private readonly LogTrailService         $logTrailService,
-    )
-    {
+    ) {
     }
 
     public function create(
@@ -25,8 +24,7 @@ class BusinessStageService extends BasePersistableService
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessStage|Model
-    {
+    ): BusinessStage|Model {
         return $this->repository->create(
             createdBy: $createdBy,
             name: $name,
@@ -42,8 +40,7 @@ class BusinessStageService extends BasePersistableService
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessStage|Model
-    {
+    ): BusinessStage|Model {
         $stage = $this->repository->update(
             id: $id,
             name: $name,

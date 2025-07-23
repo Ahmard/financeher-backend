@@ -10,16 +10,14 @@ class UserOpportunityTypeService extends BasePersistableService
 {
     public function __construct(
         private readonly UserOpportunityTypeRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function create(
         int    $createdBy,
         int    $userId,
         string $typeId,
-    ): UserOpportunityType|Model
-    {
+    ): UserOpportunityType|Model {
         return $this->repository->create(
             createdBy: $createdBy,
             userId: $userId,

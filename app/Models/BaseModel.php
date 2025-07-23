@@ -52,8 +52,7 @@ abstract class BaseModel extends Model
         array  $columns = [],
         string $pkColumn = 'created_by',
         string $fieldName = 'creator_full_name',
-    ): Builder
-    {
+    ): Builder {
         $builder = static::query();
         $tableName = $builder->getModel()->getTable();
 

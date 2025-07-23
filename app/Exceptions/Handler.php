@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 use App\Helpers\Http\Responder;
 use App\Services\MailService;
 use GuzzleHttp\Exception\RequestException;
@@ -100,7 +99,9 @@ class Handler
      */
     private static function fireEmail(Throwable $exception): void
     {
-        if (!App::isProduction()) return;
+        if (!App::isProduction()) {
+            return;
+        }
 
         if (config('app.debug_email', false)) {
             MailService::new()

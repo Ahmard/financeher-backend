@@ -6,5 +6,4 @@ use App\Exceptions\WarningException;
 
 class RecoverableException extends WarningException
 {
-
 }

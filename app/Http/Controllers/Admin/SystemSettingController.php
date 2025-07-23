@@ -15,8 +15,7 @@ class SystemSettingController extends Controller
     public function __construct(
         private readonly Responder            $responder,
         private readonly SystemSettingService $service,
-    )
-    {
+    ) {
     }
 
     public function store(SystemSettingRequest $request): JsonResponse

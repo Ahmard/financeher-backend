@@ -81,8 +81,7 @@ class Responder
         ?string           $message,
         bool              $success,
         array|object|null $data = []
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return response()->json(
             data: [
                 'status' => $code,
@@ -171,8 +170,7 @@ class Responder
         BaseQueryBuilder $queryBuilder,
         ?string          $responseMessage = null,
         array            $additionalStatuses = []
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return $this->datatableFilterable(
             builder: $queryBuilder->all(),
             additionalStatuses: $additionalStatuses,
@@ -233,8 +231,7 @@ class Responder
         ?callable          $manipulate = null,
         bool               $withoutLimit = false,
         ?string            $responseMessage = null,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if (!$tableFilter) {
             $tableName = $builder->getModel()->getTable();
             $tableFilter = TableFilter::useDateBasic(
@@ -271,8 +268,7 @@ class Responder
         ?callable          $manipulate = null,
         bool               $withoutLimit = false,
         ?string            $responseMessage = null,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if ($filter instanceof TableFilter) {
             $filter = $filter->getFilters();
         }
@@ -368,8 +364,7 @@ class Responder
         int                $select2Limit = 15,
         ?TableFilter       $tableFilter = null,
         ?TableColumnFilter $columnFilter = null,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if (HttpRequestPurpose::FORM_SELECT->lowercase() == request()->get('purpose')) {
             return $this->select2(
                 data: $builder,
@@ -393,8 +388,7 @@ class Responder
         string|array             $textColumn,
         int                      $limit = 15,
         ?callable                $callback = null
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return Select2::render(
             data: $data,
             idColumn: $idColumn,

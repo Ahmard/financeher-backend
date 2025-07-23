@@ -11,8 +11,7 @@ class UserSessionService extends BasePersistableService
 {
     public function __construct(
         private readonly UserSessionRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function create(int $userId, string $jti): UserSession|Model

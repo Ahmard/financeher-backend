@@ -13,8 +13,7 @@ class LoginService extends BaseService
     public function __construct(
         private readonly UserService        $userService,
         private readonly UserSessionService $sessionService,
-    )
-    {
+    ) {
     }
 
     /**

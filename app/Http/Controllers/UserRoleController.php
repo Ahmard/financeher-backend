@@ -20,8 +20,7 @@ class UserRoleController extends Controller
     public function __construct(
         private readonly Responder      $responder,
         private readonly UserRepository $userRepository,
-    )
-    {
+    ) {
     }
 
     /**
@@ -47,8 +46,7 @@ class UserRoleController extends Controller
         UserRoleAssignPostRequest $request,
         ModelHasRoleRepository    $modelHasRoleRepository,
         RoleRepository            $repository
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if ($modelHasRoleRepository->userHasRole(userId: $id, roleId: $request->validated('role_id'))) {
             return $this->responder->warningMessage('UserPermission has this role assigned already');
         }

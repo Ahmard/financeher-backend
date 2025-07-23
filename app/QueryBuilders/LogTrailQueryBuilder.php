@@ -62,7 +62,7 @@ class LogTrailQueryBuilder extends BaseQueryBuilder
             ->add(
                 column: 'full_name',
                 query: User::getDatatableFilterFullNameColumn(),
-                binding: fn(string $keyword) => [["%$keyword%"]],
+                binding: fn (string $keyword) => [["%$keyword%"]],
             );
     }
 
