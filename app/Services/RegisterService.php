@@ -15,13 +15,9 @@ class RegisterService extends BaseService
     }
 
     public function create(
-        string     $countryId,
-        array      $businessTypeIds,
-        array      $businessStageIds,
-        array      $opportunityTypeIds,
         ?string    $businessName,
         string     $firstName,
-        string     $lastName,
+        ?string    $lastName,
         string     $email,
         string     $rawPassword,
         ?string    $mobileNumber,
@@ -42,10 +38,6 @@ class RegisterService extends BaseService
 
         return $this->userService->create(
             invitedBy: null,
-            countryId: $countryId,
-            businessTypeIds: $businessTypeIds,
-            businessStageIds: $businessStageIds,
-            opportunityTypeIds: $opportunityTypeIds,
             businessName: $businessName,
             firstName: $firstName,
             lastName: $lastName,

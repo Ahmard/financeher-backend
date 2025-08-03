@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use JetBrains\PhpStorm\ArrayShape;
 use Ramsey\Uuid\Uuid;
 
 class UserService extends BasePersistableService
@@ -40,18 +41,47 @@ class UserService extends BasePersistableService
         private readonly UserBusinessTypeService    $userBusinessTypeService,
         private readonly UserBusinessStageService   $userBusinessStageService,
         private readonly UserOpportunityTypeService $userOpportunityTypeService,
-    ) {
+    )
+    {
+    }
+
+    public function setupAccount(
+        int   $userId,
+        array $businessTypeIds,
+        array $businessStageIds,
+        array $opportunityTypeIds,
+    ): void
+    {
+        foreach ($businessStageIds as $businessStageId) {
+            $this->userBusinessStageService->create(
+                createdBy: $userId,
+                userId: $userId,
+                stageId: $businessStageId,
+            );
+        }
+
+        foreach ($businessTypeIds as $businessTypeId) {
+            $this->userBusinessTypeService->create(
+                createdBy: $userId,
+                userId: $userId,
+                typeId: $businessTypeId,
+            );
+        }
+
+        foreach ($opportunityTypeIds as $opportunityTypeId) {
+            $this->userOpportunityTypeService->create(
+                createdBy: $userId,
+                userId: $userId,
+                typeId: $opportunityTypeId,
+            );
+        }
     }
 
     public function create(
         ?int       $invitedBy,
-        string     $countryId,
-        array      $businessTypeIds,
-        array      $businessStageIds,
-        array      $opportunityTypeIds,
         ?string    $businessName,
         string     $firstName,
-        string     $lastName,
+        ?string    $lastName,
         string     $email,
         ?string    $rawPassword,
         ?string    $mobileNumber,
@@ -59,17 +89,18 @@ class UserService extends BasePersistableService
         bool       $withVerificationEmail = false,
         UserRole   $role = UserRole::USER,
         UserStatus $status = UserStatus::ACTIVE,
-    ): User|Model {
+    ): User|Model
+    {
         $token = md5(Uuid::uuid4() . Uuid::uuid4());
         $user = $this->repository->create(
             invitedBy: $invitedBy,
-            countryId: $countryId,
             businessName: $businessName,
             firstName: $firstName,
             lastName: $lastName,
             email: $email,
             password: $rawPassword ? Hash::make($rawPassword) : null,
             mobileNumber: $mobileNumber,
+            accountVerificationCode: strval(mt_rand(100000, 999999)),
             accountVerificationToken: $token,
             profilePicture: $profilePicture,
             status: $status,
@@ -81,30 +112,6 @@ class UserService extends BasePersistableService
 
         if ($withVerificationEmail) {
             $this->sendAccountVerificationEmail($user);
-        }
-
-        foreach ($businessStageIds as $businessStageId) {
-            $this->userBusinessStageService->create(
-                createdBy: $user['id'],
-                userId: $user['id'],
-                stageId: $businessStageId,
-            );
-        }
-
-        foreach ($businessTypeIds as $businessTypeId) {
-            $this->userBusinessTypeService->create(
-                createdBy: $user['id'],
-                userId: $user['id'],
-                typeId: $businessTypeId,
-            );
-        }
-
-        foreach ($opportunityTypeIds as $opportunityTypeId) {
-            $this->userOpportunityTypeService->create(
-                createdBy: $user['id'],
-                userId: $user['id'],
-                typeId: $opportunityTypeId,
-            );
         }
 
         return $user;
@@ -149,7 +156,8 @@ class UserService extends BasePersistableService
         string  $mobileNumber,
         ?string $profilePicture = null,
         ?string $nin = null,
-    ): Model|User {
+    ): Model|User
+    {
         return $this->repository->update(
             id: $id,
             firstName: $firstName,
@@ -166,7 +174,8 @@ class UserService extends BasePersistableService
         int                 $activatedBy,
         string              $reason,
         ?LogTrailEntityType $subPawnType = null
-    ): Model|User {
+    ): Model|User
+    {
         $user = $this->repository->changeStatus(
             id: $id,
             status: UserStatus::ACTIVE
@@ -191,7 +200,8 @@ class UserService extends BasePersistableService
         int                 $deactivatedBy,
         string              $reason,
         ?LogTrailEntityType $subPawnType = null
-    ): Model|User {
+    ): Model|User
+    {
         $user = $this->repository->changeStatus(
             id: $id,
             status: UserStatus::INACTIVE
@@ -274,10 +284,9 @@ class UserService extends BasePersistableService
         return $user;
     }
 
-    public function markUserAsEmailVerified(User|Model $user, string $rawPassword): User|Model
+    public function markUserAsEmailVerified(User|Model $user): User|Model
     {
         $cols = [
-            'password' => Hash::make($rawPassword),
             'email_verified_at' => Carbon::now(),
             'email_verification_token' => null,
         ];
@@ -433,6 +442,20 @@ class UserService extends BasePersistableService
     public function updateLastLogin(User|Model $user): void
     {
         $user->update(['last_login_at' => Carbon::now()]);
+    }
+
+    #[ArrayShape(['first_name' => "string", 'last_name' => "string"])]
+    public static function FirstLastNameFromFullName(string $name): array
+    {
+        $expName = explode(' ', $name);
+        $firstName = $expName[0];
+        unset($expName[0]);
+        $lastName = implode(' ', $expName);
+
+        return [
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ];
     }
 
     public function repository(): UserRepository

@@ -48,14 +48,10 @@ class UserSeeder extends Seeder
 
         $service->create(
             invitedBy: null,
-            countryId: $country['id'],
-            businessTypeIds: $businessTypeIds(),
-            businessStageIds: $businessStageIds(),
-            opportunityTypeIds: $opportunityTypeIds(),
             businessName: 'Financeher',
             firstName: 'Super',
             lastName: 'Admin',
-            email: 'super.admin@financeher.com',
+            email: 'super.admin@financeher.co',
             rawPassword: self::SEED_PASSWORD,
             mobileNumber: '07011223344',
             role: UserRole::SUPER_ADMIN,
@@ -63,10 +59,6 @@ class UserSeeder extends Seeder
 
         $service->create(
             invitedBy: null,
-            countryId: $country['id'],
-            businessTypeIds: $businessTypeIds(),
-            businessStageIds: $businessStageIds(),
-            opportunityTypeIds: $opportunityTypeIds(),
             businessName: 'SpiralOver',
             firstName: 'Ahmad',
             lastName: 'Mustapha',
@@ -81,10 +73,6 @@ class UserSeeder extends Seeder
 
             $service->create(
                 invitedBy: null,
-                countryId: $country['id'],
-                businessTypeIds: $businessTypeIds(),
-                businessStageIds: $businessStageIds(),
-                opportunityTypeIds: $opportunityTypeIds(),
                 businessName: null,
                 firstName: $faker->firstName(),
                 lastName: $faker->lastName(),

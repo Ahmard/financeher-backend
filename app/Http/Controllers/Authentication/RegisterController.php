@@ -20,7 +20,8 @@ class RegisterController extends Controller
     public function __construct(
         private readonly Responder   $responder,
         private readonly AuthService $authService,
-    ) {
+    )
+    {
     }
 
     /**
@@ -30,14 +31,16 @@ class RegisterController extends Controller
      */
     public function register(RegisterPostRequest $request): JsonResponse
     {
+        $fullName = $request->validated('full_name');
+        [
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ] = UserService::FirstLastNameFromFullName($fullName);
+
         $access = $this->authService->register(
-            countryId: $request->validated('country_id'),
-            businessTypeIds: $request->validated('business_type_ids'),
-            businessStageIds: $request->validated('business_stage_ids'),
-            opportunityTypeIds: $request->validated('opportunity_type_ids'),
             businessName: null,
-            firstName: $request->validated('first_name'),
-            lastName: $request->validated('last_name'),
+            firstName: $firstName,
+            lastName: $lastName,
             email: $request->validated('email'),
             rawPassword: $request->validated('password'),
             mobileNumber: $request->validated('mobile_number'),
@@ -51,20 +54,37 @@ class RegisterController extends Controller
 
     /**
      * @param string $token
-     * @param PasswordRequest $request
      * @param LoginService $loginService
      * @return JsonResponse
      * @throws WarningException
      */
-    public function verifyEmail(
+    public function verifyByToken(
         string          $token,
-        PasswordRequest $request,
         LoginService    $loginService,
-    ): JsonResponse {
-        $user = $this->authService->verifyOnboardingToken(
-            token: $token,
-            password: $request->password()
+    ): JsonResponse
+    {
+        $user = $this->authService->verifyOnboardingToken($token);
+
+        $access = $loginService->logUserIn($user);
+
+        return $this->responder->success(
+            data: $access,
+            message: 'Email verified and you are logged in.'
         );
+    }
+
+    /**
+     * @param string $code
+     * @param LoginService $loginService
+     * @return JsonResponse
+     * @throws WarningException
+     */
+    public function verifyByCode(
+        string       $code,
+        LoginService $loginService,
+    ): JsonResponse
+    {
+        $user = $this->authService->verifyOnboardingCode($code);
 
         $access = $loginService->logUserIn($user);
 

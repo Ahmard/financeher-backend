@@ -174,6 +174,7 @@ class User extends Authenticatable implements JWTSubject
             'email' => $this['email'],
             'mobile_number' => $this['mobile_number'],
             'profile_picture' => $this['profile_picture'],
+            'registration_stage' => $this['registration_stage'],
             'status' => $this['status'],
             'created_at' => $this['created_at'],
             'updated_at' => $this['updated_at'],

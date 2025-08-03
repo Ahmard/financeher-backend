@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Enums\Statuses\UserStatus;
+use App\Enums\Types\UserRegistrationStage;
 use App\Exceptions\ModelNotFoundException;
 use App\Helpers\Carbon;
 use App\Models\Permission;
@@ -21,20 +22,19 @@ class UserRepository extends BaseRepository
     }
 
     public function create(
-        ?int       $invitedBy,
-        string     $countryId,
-        ?string    $businessName,
-        string     $firstName,
-        string     $lastName,
-        string     $email,
-        ?string    $password,
-        ?string    $mobileNumber,
-        string     $accountVerificationToken,
-        ?string    $profilePicture = null,
+        ?int    $invitedBy,
+        ?string $businessName,
+        string  $firstName,
+        ?string $lastName,
+        string  $email,
+        ?string $password,
+        ?string $mobileNumber,
+        string  $accountVerificationCode,
+        string  $accountVerificationToken,
+        ?string $profilePicture = null,
         UserStatus $status = UserStatus::ACTIVE,
     ): User|Model {
         return User::query()->create([
-            'country_id' => $countryId,
             'invited_by' => $invitedBy,
             'business_name' => $businessName,
             'first_name' => $firstName,
@@ -42,17 +42,19 @@ class UserRepository extends BaseRepository
             'email' => $email,
             'mobile_number' => $mobileNumber,
             'profile_picture' => $profilePicture,
+            'email_verification_code' => $accountVerificationCode,
             'email_verification_token' => $accountVerificationToken,
             'password' => $password,
             'has_password' => !empty($password),
             'status' => $status->lowercase(),
+            'registration_stage' => UserRegistrationStage::EMAIL_VERIFICATION->lowercase(),
         ]);
     }
 
     public function update(
         int     $id,
         string  $firstName,
-        string  $lastName,
+        ?string $lastName,
         string  $email,
         string  $mobileNumber,
         ?string $profilePicture = null,
@@ -93,6 +95,13 @@ class UserRepository extends BaseRepository
         return User::query()
             ->where('email_verification_token', $token)
             ->exists();
+    }
+
+    public function findByAccountVerificationCode(string $token): Model|User|null
+    {
+        return User::query()
+            ->where('email_verification_code', $token)
+            ->first();
     }
 
     public function findByAccountVerificationToken(string $token): Model|User|null

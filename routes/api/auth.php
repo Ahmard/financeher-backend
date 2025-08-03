@@ -11,7 +11,8 @@ Route::get('me', [LoginController::class, 'me']);
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('register/resend-account-verification-email', [RegisterController::class, 'resendAccountVerificationEmail']);
-Route::post('register/{uuid}/verify-email', [RegisterController::class, 'verifyEmail']);
+Route::post('register/{code}/verify-code', [RegisterController::class, 'verifyByCode']);
+Route::post('register/{token}/verify-token', [RegisterController::class, 'verifyByToken']);
 Route::get('register/{uuid}/verify-token-validity', [RegisterController::class, 'verifyTokenValidity']);
 
 Route::prefix('password-reset')->group(function () {

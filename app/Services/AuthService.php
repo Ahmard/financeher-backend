@@ -6,7 +6,6 @@ use App\Enums\Statuses\UserStatus;
 use App\Enums\Types\LogTrailActionType;
 use App\Enums\Types\LogTrailEntityType;
 use App\Enums\UserRole;
-use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\WarningException;
 use App\Models\User;
 use App\Repositories\ModelHasRoleRepository;
@@ -19,12 +18,13 @@ use Illuminate\Support\Facades\Hash;
 class AuthService extends BaseService
 {
     public function __construct(
-        private readonly LoginService             $loginService,
-        private readonly RegisterService          $registerService,
-        private readonly MailService              $mailService,
-        private readonly UserService              $userService,
-        private readonly LogTrailService          $logTrailService,
-    ) {
+        private readonly LoginService    $loginService,
+        private readonly RegisterService $registerService,
+        private readonly MailService     $mailService,
+        private readonly UserService     $userService,
+        private readonly LogTrailService $logTrailService,
+    )
+    {
     }
 
     /**
@@ -39,22 +39,42 @@ class AuthService extends BaseService
     }
 
     /**
-     * @param string $token
-     * @param string $password
+     * @param string $code
      * @return Model|User
      * @throws WarningException
      */
-    public function verifyOnboardingToken(string $token, string $password): User|Model
+    public function verifyOnboardingCode(string $code): User|Model
+    {
+        $user = $this->userService->repository()->findByAccountVerificationCode($code);
+        if ($user == null) {
+            throw new WarningException('Invalid email verification token');
+        }
+
+        return $this->verifyUser($user);
+    }
+
+    /**
+     * @param string $token
+     * @return Model|User
+     * @throws WarningException
+     */
+    public function verifyOnboardingToken(string $token): User|Model
     {
         $user = $this->userService->repository()->findByAccountVerificationToken($token);
         if ($user == null) {
             throw new WarningException('Invalid email verification token');
         }
 
-        $user = $this->userService->markUserAsEmailVerified(
-            user: $user,
-            rawPassword: $password
-        );
+        return $this->verifyUser($user);
+    }
+
+    /**
+     * @param User|Model $user
+     * @return Model|User
+     */
+    public function verifyUser(User|Model $user): User|Model
+    {
+        $user = $this->userService->markUserAsEmailVerified($user);
 
         $this->mailService
             ->setSubject(sprintf('Welcome to %s', config('app.name')))
@@ -70,13 +90,9 @@ class AuthService extends BaseService
     }
 
     /**
-     * @param string $countryId
-     * @param array $businessTypeIds
-     * @param array $businessStageIds
-     * @param array $opportunityTypeIds
      * @param string|null $businessName
      * @param string $firstName
-     * @param string $lastName
+     * @param string|null $lastName
      * @param string $email
      * @param string $rawPassword
      * @param string|null $mobileNumber
@@ -86,24 +102,17 @@ class AuthService extends BaseService
      * @throws WarningException
      */
     public function register(
-        string     $countryId,
-        array      $businessTypeIds,
-        array      $businessStageIds,
-        array      $opportunityTypeIds,
         ?string    $businessName,
         string     $firstName,
-        string     $lastName,
+        ?string    $lastName,
         string     $email,
         string     $rawPassword,
         ?string    $mobileNumber,
         ?string    $profilePicture = null,
         UserStatus $status = UserStatus::ACTIVE,
-    ): User|Model {
+    ): User|Model
+    {
         return $this->registerService->create(
-            countryId: $countryId,
-            businessTypeIds: $businessTypeIds,
-            businessStageIds: $businessStageIds,
-            opportunityTypeIds: $opportunityTypeIds,
             businessName: $businessName,
             firstName: $firstName,
             lastName: $lastName,
@@ -126,7 +135,8 @@ class AuthService extends BaseService
         User|Model $user,
         string     $oldPassword,
         string     $password
-    ): void {
+    ): void
+    {
         if ($password == $oldPassword) {
             throw new WarningException('New password cannot be same as old password');
         }
@@ -206,7 +216,7 @@ class AuthService extends BaseService
     public function getUserPermissionNames(int|User|Authenticatable $user): array
     {
         $user = $this->getUser($user);
-        return array_map(fn (array $p) => $p['name'], $user->getAllPermissions()->toArray());
+        return array_map(fn(array $p) => $p['name'], $user->getAllPermissions()->toArray());
     }
 
     public function getSystemAccount(): Model|User

@@ -50,7 +50,7 @@ class PasswordResetService extends BasePersistableService
             ->setRecipient($user['email'], $user->fullName())
             ->view('mails.auth.password-reset', [
                 'user' => $user,
-                'link' => frontend("reset-password?route=$token")
+                'link' => frontend("reset-password?token=$token")
             ])
             ->send();
     }

@@ -26,18 +26,11 @@ class RegisterPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|min:2|max:100',
-            'last_name' => 'required|string|min:2|max:100',
+            'full_name' => 'required|string|min:5|max:150',
             'email' => EmailValidator::rules(uniqueEmail: true),
-            'mobile_number' => ['required', PhoneNumberValidator::create(), 'unique:users,mobile_number'],
+            'mobile_number' => ['nullable', PhoneNumberValidator::create(), 'unique:users,mobile_number'],
             'password' => ['required', PasswordValidator::create()],
-            'country_id' => 'required|uuid|exists:geo_countries,id',
-            'business_type_ids' => 'required|array|min:1',
-            'business_type_ids.*' => 'required|uuid|exists:business_types,id',
-            'business_stage_ids' => 'required|array|min:1',
-            'business_stage_ids.*' => 'required|uuid|exists:business_stages,id',
-            'opportunity_type_ids' => 'required|array|min:1',
-            'opportunity_type_ids.*' => 'required|uuid|exists:opportunity_types,id',
+            'country_id' => 'nullable|uuid|exists:geo_countries,id',
         ];
     }
 }

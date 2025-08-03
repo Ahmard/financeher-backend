@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Statuses\UserStatus;
+use App\Enums\Types\UserRegistrationStage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ return new class extends Migration {
             $table->id();
 
             $table->foreignUuid('country_id')
+                ->nullable()
                 ->constrained('geo_countries');
 
             $table->foreignId('invited_by')
@@ -22,8 +24,8 @@ return new class extends Migration {
                 ->constrained('users');
 
             $table->string('first_name');
-            $table->string('last_name');
-            $table->string('mobile_number');
+            $table->string('last_name')->nullable();
+            $table->string('mobile_number')->nullable();
             $table->string('email')->unique();
 
             $table->string('business_name')
@@ -32,11 +34,15 @@ return new class extends Migration {
 
             $table->string('profile_picture')->nullable();
 
+            $table->enum('registration_stage', UserRegistrationStage::getDBCompatibleEnum())
+                ->default(UserRegistrationStage::EMAIL_VERIFICATION->lowercase());
 
+            $table->string('email_verification_code', 10)->nullable();
             $table->string('email_verification_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
+            $table->smallInteger('failed_logins')->default(0);
             $table->boolean('has_password');
             $table->enum('status', UserStatus::getDBCompatibleEnum());
 
