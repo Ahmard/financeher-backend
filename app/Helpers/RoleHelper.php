@@ -2,9 +2,11 @@
 
 namespace App\Helpers;
 
+use App\Enums\Permissions\LoanVcPermission;
 use App\Enums\Permissions\OpportunityPermission;
 use App\Enums\Permissions\PaymentPermission;
 use App\Enums\Permissions\PermissionPermission;
+use App\Enums\Permissions\PlanPermission;
 use App\Enums\Permissions\RolePermission;
 use App\Enums\Permissions\UserPermission;
 use UnitEnum;
@@ -16,6 +18,8 @@ class RoleHelper
         RolePermission::class,
         PaymentPermission::class,
         PermissionPermission::class,
+        PlanPermission::class,
+        LoanVcPermission::class,
         OpportunityPermission::class,
     ];
 

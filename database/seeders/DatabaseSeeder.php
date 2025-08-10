@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OpportunityTypeSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(PlanSeeder::class);
         $this->call(WalletSeeder::class);
         $this->call(SystemSettingSeeder::class);
 
