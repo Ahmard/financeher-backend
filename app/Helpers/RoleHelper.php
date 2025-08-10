@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Enums\Permissions\OpportunityPermission;
 use App\Enums\Permissions\PaymentPermission;
 use App\Enums\Permissions\PermissionPermission;
 use App\Enums\Permissions\RolePermission;
@@ -15,6 +16,7 @@ class RoleHelper
         RolePermission::class,
         PaymentPermission::class,
         PermissionPermission::class,
+        OpportunityPermission::class,
     ];
 
     /**

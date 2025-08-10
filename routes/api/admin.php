@@ -1,10 +1,13 @@
 <?php
 
+use App\Enums\Permissions\OpportunityPermission;
 use App\Enums\Permissions\PaymentPermission;
+use App\Helpers\RouteHelper;
+use App\Http\Controllers\Admin\OpportunityController;
 use App\Http\Controllers\Admin\PaymentController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 // PAYMENTS
@@ -40,3 +43,12 @@ Route::prefix('users')->group(function () {
     Route::post('{id}/resend-verification-email', [UserController::class, 'resendVerificationEmail']);
     Route::delete('{id}/roles/{rid}', [UserController::class, 'unassignRole']);
 });
+
+Route::get('opportunities/page-metrics', [OpportunityController::class, 'pageMetrics']);
+RouteHelper::apiResource(
+    name: 'opportunities',
+    controller: OpportunityController::class,
+    permission: OpportunityPermission::class,
+);
+Route::post('opportunities/{id}/change-logo', [OpportunityController::class, 'changeLogo']);
+

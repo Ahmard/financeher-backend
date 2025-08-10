@@ -17,7 +17,7 @@ trait ControllerListShowDeleteTrait
      */
     public function index(): JsonResponse
     {
-        return $this->responder->listFromService($this->service);
+        return $this->responder()->listFromService($this->service);
     }
 
     /**
@@ -27,7 +27,7 @@ trait ControllerListShowDeleteTrait
     public function show(string|int $id): JsonResponse
     {
         $model = $this->service->repository()->findRequiredById($id);
-        return $this->responder->success($model);
+        return $this->responder()->success($model);
     }
 
     /**
@@ -37,12 +37,12 @@ trait ControllerListShowDeleteTrait
      */
     public function destroy(string|int $id, ReasonRequest $request): JsonResponse
     {
-        $this->service->delete(
+        $model = $this->service->delete(
             id: $id,
             deletedBy: Auth::id(),
             reason: $request->reason(),
         );
 
-        return $this->responder->successMessage('deleted');
+        return $this->responder()->successMessage(sprintf('%s deleted successfully', ucfirst($model->getModelTitle())));
     }
 }

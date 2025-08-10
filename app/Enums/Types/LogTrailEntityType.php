@@ -13,7 +13,7 @@ enum LogTrailEntityType implements DBCompatibleEnumInterface
 
     case USER;
     case WALLET;
-    case DESIGN_PROFILE;
+    case OPPORTUNITY;
     case UPLOADED_FILE;
     case SYSTEM_SETTINGS;
     case ONBOARDING_SETTINGS;

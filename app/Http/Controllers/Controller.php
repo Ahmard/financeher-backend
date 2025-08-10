@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Http\Responder;
+use Illuminate\Contracts\Container\BindingResolutionException;
+
 abstract class Controller
 {
     public function getFilter(string $name): ?string
@@ -43,5 +46,10 @@ abstract class Controller
     public function endDate(): ?string
     {
         return request()->get('end_date') ?? null;
+    }
+
+    public function responder(): Responder
+    {
+        return app()->make(Responder::class);
     }
 }

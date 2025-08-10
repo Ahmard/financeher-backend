@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -23,5 +24,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(WalletSeeder::class);
         $this->call(SystemSettingSeeder::class);
+
+        if (!App::isProduction()) {
+            $this->call(OpportunitySeeder::class);
+        }
     }
 }
