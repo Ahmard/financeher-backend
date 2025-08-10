@@ -19,7 +19,8 @@ class Opportunity extends BaseModel
             'opportunities.name' => 10,
             'opportunities.overview' => 9,
             'opportunities.application_url' => 8,
-            'opportunities.amount' => 7,
+            'opportunities.lower_amount' => 7,
+            'opportunities.upper_amount' => 7,
         ]
     ];
 }

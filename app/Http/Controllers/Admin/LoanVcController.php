@@ -5,21 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\WarningException;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ControllerListShowDeleteTrait;
+use App\Http\Requests\Admin\LoanVcCreateRequest;
+use App\Http\Requests\Admin\LoanVcUpdateRequest;
 use App\Http\Requests\Admin\OpportunityCreateRequest;
 use App\Http\Requests\Admin\OpportunityUpdateRequest;
 use App\Http\Requests\ImageUploadRequest;
+use App\Services\LoanVcService;
 use App\Services\OpportunityService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class OpportunityController extends Controller
+class LoanVcController extends Controller
 {
     use ControllerListShowDeleteTrait;
 
     public function __construct(
-        private readonly OpportunityService $service,
+        private readonly LoanVcService $service,
     )
     {
     }
@@ -28,7 +31,7 @@ class OpportunityController extends Controller
     {
         return $this->responder()->success(
             data: $this->service->pageMetrics(),
-            message: 'Opportunity metrics retrieved successfully'
+            message: 'Loan/VC metrics retrieved successfully'
         );
     }
 
@@ -41,50 +44,49 @@ class OpportunityController extends Controller
     {
         return $this->responder()->datatableFilterable(
             builder: $this->service->queryBuilder()->allDesc(),
-            responseMessage: 'Opportunities retrieved successfully'
+            responseMessage: 'Items retrieved successfully'
         );
     }
 
-    public function store(OpportunityCreateRequest $request): JsonResponse
+    public function store(LoanVcCreateRequest $request): JsonResponse
     {
         $opp = $this->service->create(
             createdBy: Auth::id(),
-            countryId: $request->validated('country_id'),
+            countryIds: $request->validated('country_ids'),
             businessTypeId: $request->validated('business_type_id'),
             opportunityTypeId: $request->validated('opportunity_type_id'),
-            name: $request->validated('name'),
+            organisation: $request->validated('organisation'),
             lowerAmount: $request->validated('min_amount'),
             upperAmount: $request->validated('max_amount'),
-            overview: $request->validated('overview'),
+            description: $request->validated('description'),
             applicationUrl: $request->validated('application_url'),
             closingAt: $request->validated('closing_at'),
         );
 
         return $this->responder()->success(
             data: $opp,
-            message: 'Opportunity created successfully'
+            message: 'Loan/VC created successfully'
         );
     }
 
-    public function update(string $id, OpportunityUpdateRequest $request): JsonResponse
+    public function update(string $id, LoanVcUpdateRequest $request): JsonResponse
     {
         $opp = $this->service->update(
             id: $id,
             updatedBy: Auth::id(),
-            countryId: $request->validated('country_id'),
             businessTypeId: $request->validated('business_type_id'),
             opportunityTypeId: $request->validated('opportunity_type_id'),
-            name: $request->validated('name'),
+            organisation: $request->validated('organisation'),
             lowerAmount: $request->validated('lower_amount'),
             upperAmount: $request->validated('upper_amount'),
-            overview: $request->validated('overview'),
+            description: $request->validated('description'),
             applicationUrl: $request->validated('application_url'),
             closingAt: $request->validated('closing_at'),
         );
 
         return $this->responder()->success(
             data: $opp,
-            message: 'Opportunity created successfully'
+            message: 'Loan/VC created successfully'
         );
     }
 
@@ -95,7 +97,7 @@ class OpportunityController extends Controller
     {
         $this->service->changeLogo($id, Auth::id());
         return $this->responder()->successMessage(
-            message: 'Opportunity logo changed successfully'
+            message: 'Loan/VC logo changed successfully'
         );
     }
 
@@ -107,7 +109,7 @@ class OpportunityController extends Controller
     {
         $this->service->close($id, Auth::id());
         return $this->responder()->successMessage(
-            message: 'Opportunity closed successfully'
+            message: 'Loan/VC closed successfully'
         );
     }
 }

@@ -2,76 +2,73 @@
 
 namespace App\Repositories;
 
-use App\Models\Opportunity;
+use App\Helpers\Carbon;
+use App\Models\LoanVc;
 use App\QueryBuilders\BaseQueryBuilder;
-use App\QueryBuilders\OpportunityQueryBuilder;
+use App\QueryBuilders\LoanVcQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 
-class OpportunityRepository extends BaseRepository
+class LoanVcRepository extends BaseRepository
 {
     public function __construct(
-        private readonly OpportunityQueryBuilder $queryBuilder,
+        private readonly LoanVcQueryBuilder $queryBuilder,
     )
     {
     }
 
     public function create(
         int    $createdBy,
-        string $countryId,
         string $businessTypeId,
         string $opportunityTypeId,
-        string $name,
+        string $organisation,
         float  $lowerAmount,
         float  $upperAmount,
         string $logo,
-        string $overview,
+        string $description,
         string $applicationUrl,
         string $closingAt,
-    ): Opportunity|Model
+    ): LoanVc|Model
     {
-        return Opportunity::query()->create([
+        return LoanVc::query()->create([
             'created_by' => $createdBy,
-            'country_id' => $countryId,
             'business_type_id' => $businessTypeId,
             'opportunity_type_id' => $opportunityTypeId,
-            'name' => $name,
+            'organisation' => $organisation,
             'lower_amount' => $lowerAmount,
             'upper_amount' => $upperAmount,
             'logo' => $logo,
-            'overview' => $overview,
+            'description' => $description,
             'application_url' => $applicationUrl,
             'closing_at' => $closingAt,
         ]);
     }
 
     public function update(
-        Opportunity|Model $opportunity,
-        string            $countryId,
-        string            $businessTypeId,
-        string            $opportunityTypeId,
-        string            $name,
-        float             $lowerAmount,
-        float             $upperAmount,
-        string            $logo,
-        string            $overview,
-        string            $applicationUrl,
-        string            $closingAt,
-    ): Model|Opportunity
+        LoanVc|Model $lvc,
+        string       $businessTypeId,
+        string       $opportunityTypeId,
+        string       $organisation,
+        float        $lowerAmount,
+        float        $upperAmount,
+        string       $logo,
+        string       $description,
+        string       $applicationUrl,
+        Carbon       $closingAt,
+    ): Model|LoanVc
     {
-        $opportunity->update([
-            'country_id' => $countryId,
+        $lvc->update([
             'business_type_id' => $businessTypeId,
             'opportunity_type_id' => $opportunityTypeId,
-            'name' => $name,
+            'organisation' => $organisation,
             'lower_amount' => $lowerAmount,
             'upper_amount' => $upperAmount,
             'logo' => $logo,
-            'overview' => $overview,
+            'description' => $description,
             'application_url' => $applicationUrl,
             'closing_at' => $closingAt,
         ]);
 
-        return $opportunity;
+        return $lvc;
     }
 
     public function queryBuilder(): BaseQueryBuilder

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
 
         if (!App::isProduction()) {
             $this->call(OpportunitySeeder::class);
+            $this->call(LoanVcSeeder::class);
         }
     }
 }

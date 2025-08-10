@@ -3,6 +3,7 @@
 use App\Enums\Permissions\OpportunityPermission;
 use App\Enums\Permissions\PaymentPermission;
 use App\Helpers\RouteHelper;
+use App\Http\Controllers\Admin\LoanVcController;
 use App\Http\Controllers\Admin\OpportunityController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -44,6 +45,7 @@ Route::prefix('users')->group(function () {
     Route::delete('{id}/roles/{rid}', [UserController::class, 'unassignRole']);
 });
 
+# Opportunities
 Route::get('opportunities/page-metrics', [OpportunityController::class, 'pageMetrics']);
 RouteHelper::apiResource(
     name: 'opportunities',
@@ -51,4 +53,13 @@ RouteHelper::apiResource(
     permission: OpportunityPermission::class,
 );
 Route::post('opportunities/{id}/change-logo', [OpportunityController::class, 'changeLogo']);
+
+# LOAN/VC
+Route::get('loan-vcs/page-metrics', [LoanVcController::class, 'pageMetrics']);
+RouteHelper::apiResource(
+    name: 'loan-vcs',
+    controller: LoanVcController::class,
+    permission: OpportunityPermission::class,
+);
+Route::post('loan-vcs/{id}/change-logo', [LoanVcController::class, 'changeLogo']);
 

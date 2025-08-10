@@ -2,39 +2,42 @@
 
 namespace App\Services;
 
+use App\Enums\Statuses\LoanVcStatus;
 use App\Enums\Statuses\OpportunityStatus;
 use App\Enums\Types\LogTrailActionType;
 use App\Enums\Types\LogTrailEntityType;
 use App\Exceptions\WarningException;
 use App\Helpers\Http\Uploader\Uploader;
+use App\Models\LoanVc;
 use App\Models\Opportunity;
 use App\Repositories\BaseRepository;
-use App\Repositories\OpportunityRepository;
+use App\Repositories\LoanVcRepository;
 use App\Services\Traits\EntityDeletionTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class OpportunityService extends BasePersistableService
+class LoanVcService extends BasePersistableService
 {
     use EntityDeletionTrait;
 
-    protected LogTrailEntityType $logTrailPawnType = LogTrailEntityType::OPPORTUNITY;
+    protected LogTrailEntityType $logTrailPawnType = LogTrailEntityType::LOAN_VC;
 
     public function __construct(
-        private readonly OpportunityRepository $repository,
-        private readonly LogTrailService       $logTrailService,
+        private readonly LoanVcRepository     $repository,
+        private readonly LogTrailService      $logTrailService,
+        private readonly LoanVcCountryService $loanVcCountryService,
     )
     {
     }
 
     public function create(
         int    $createdBy,
-        string $countryId,
+        array  $countryIds,
         string $businessTypeId,
         string $opportunityTypeId,
-        string $name,
+        string $organisation,
         float  $lowerAmount,
         float  $upperAmount,
-        string $overview,
+        string $description,
         string $applicationUrl,
         string $closingAt,
     ): Opportunity|Model
@@ -44,52 +47,59 @@ class OpportunityService extends BasePersistableService
             false => Uploader::image(fieldName: 'logo')[0]->getRelativePath(),
         };
 
-        return $this->repository->create(
+        $loanVc = $this->repository->create(
             createdBy: $createdBy,
-            countryId: $countryId,
             businessTypeId: $businessTypeId,
             opportunityTypeId: $opportunityTypeId,
-            name: $name,
+            organisation: $organisation,
             lowerAmount: $lowerAmount,
             upperAmount: $upperAmount,
             logo: $logo,
-            overview: $overview,
+            description: $description,
             applicationUrl: $applicationUrl,
             closingAt: $closingAt,
         );
+
+        foreach ($countryIds as $countryId) {
+            $this->loanVcCountryService->create(
+                createdBy: $createdBy,
+                loanVcId: $loanVc['id'],
+                countryId: $countryId,
+            );
+        }
+
+        return $loanVc;
     }
 
     public function update(
         int    $id,
         int    $updatedBy,
-        string $countryId,
         string $businessTypeId,
         string $opportunityTypeId,
-        string $name,
+        string $organisation,
         float  $lowerAmount,
         float  $upperAmount,
-        string $overview,
+        string $description,
         string $applicationUrl,
         string $closingAt,
     ): Model|Opportunity
     {
-        $opportunity = $this->repository->findRequiredById($id);
+        $lvc = $this->repository->findRequiredById($id);
 
         $logo = match (request()->hasFile('logo')) {
-            false => $opportunity['logo'],
+            false => $lvc['logo'],
             true => Uploader::image(fieldName: 'logo')[0]->getRelativePath(),
         };
 
-        $opportunity = $this->repository->update(
-            opportunity: $opportunity,
-            countryId: $countryId,
+        $lvc = $this->repository->update(
+            lvc: $lvc,
             businessTypeId: $businessTypeId,
             opportunityTypeId: $opportunityTypeId,
-            name: $name,
+            organisation: $organisation,
             lowerAmount: $lowerAmount,
             upperAmount: $upperAmount,
             logo: $logo,
-            overview: $overview,
+            description: $description,
             applicationUrl: $applicationUrl,
             closingAt: $closingAt,
         );
@@ -100,10 +110,10 @@ class OpportunityService extends BasePersistableService
             entityType: $this->logTrailPawnType,
             action: LogTrailActionType::UPDATE,
             desc: 'Opportunity updated',
-            data: $opportunity,
+            data: $lvc,
         );
 
-        return $opportunity;
+        return $lvc;
     }
 
     /**
@@ -147,12 +157,12 @@ class OpportunityService extends BasePersistableService
     public function pageMetrics(): array
     {
         return [
-            'all' => Opportunity::query()->count(),
-            'ongoing' => Opportunity::query()
-                ->where('status', OpportunityStatus::ONGOING->lowercase())
+            'all' => LoanVc::query()->count(),
+            'ongoing' => LoanVc::query()
+                ->where('status', LoanVcStatus::ONGOING->lowercase())
                 ->count(),
-            'closed' => Opportunity::query()
-                ->where('status', OpportunityStatus::CLOSED->lowercase())
+            'closed' => LoanVc::query()
+                ->where('status', LoanVcStatus::CLOSED->lowercase())
                 ->count(),
         ];
     }
