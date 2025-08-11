@@ -5,6 +5,7 @@ namespace App\Enums;
 enum SystemSettingDefinition: string
 {
     case APP_VERSION = 'app_version';
+    case ACTIVE_PLAN_ID = 'active_plan_id';
     case PAYMENT_GATEWAY = 'payment_gateway';
 
     case SYSTEM_STATUS = 'system_status';

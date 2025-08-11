@@ -15,13 +15,16 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
     public function __construct(
         private readonly Responder      $responder,
         private readonly PaymentService $service,
-    ) {
+    )
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**

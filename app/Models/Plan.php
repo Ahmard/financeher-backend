@@ -26,4 +26,14 @@ class Plan extends BaseModel
     public $casts = [
         'features' => 'array',
     ];
+
+    public function intoMiscData(): array
+    {
+        return [
+            'name' => $this['name'],
+            'billing_cycle' => $this['billing_cycle'],
+            'price' => $this['price'],
+            'features' => $this['features'],
+        ];
+    }
 }

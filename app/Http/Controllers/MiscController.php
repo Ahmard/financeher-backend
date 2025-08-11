@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SystemSettingDefinition;
 use App\Helpers\Http\Responder;
-use App\Http\Requests\Authentication\EmailRequest;
+use App\Helpers\SettingHelper;
 use App\QueryBuilders\BusinessStageQueryBuilder;
 use App\QueryBuilders\BusinessTypeQueryBuilder;
 use App\QueryBuilders\GeoCountryQueryBuilder;
 use App\QueryBuilders\GeoLocalGovQueryBuilder;
 use App\QueryBuilders\GeoStateQueryBuilder;
 use App\QueryBuilders\OpportunityTypeQueryBuilder;
-use App\Repositories\UserRepository;
+use App\Repositories\PlanRepository;
 use Illuminate\Http\JsonResponse;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -19,7 +20,23 @@ class MiscController extends Controller
 {
     public function __construct(
         private readonly Responder $responder,
-    ) {
+    )
+    {
+    }
+
+    /**
+     * @param PlanRepository $repository
+     * @return JsonResponse
+     */
+    public function activePlan(PlanRepository $repository): JsonResponse
+    {
+        $planId = SettingHelper::get(SystemSettingDefinition::ACTIVE_PLAN_ID);
+        $plan = $repository->findRequiredById($planId);
+
+        return $this->responder()->success(
+            data: $plan->intoMiscData(),
+            message: 'Active plan fetched successfully'
+        );
     }
 
     /**

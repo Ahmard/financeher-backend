@@ -10,5 +10,5 @@ enum PaymentPurpose implements DBCompatibleEnumInterface
     use DBCompatibleEnumTrait;
 
     case WALLET_FUNDING;
-    case BILLING_PLAN_SUBSCRIPTION;
+    case PLAN_SUBSCRIPTION;
 }

@@ -19,6 +19,9 @@ return new class extends Migration {
             $table->foreignId('created_by')
                 ->constrained('users');
 
+            $table->foreignUuid('active_plan_id')
+                ->constrained('plans');
+
             $table->string('app_version')->default('0.0.1');
             $table->boolean('system_status');
             $table->boolean('login_module_status');

@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Enums\Types\PaymentGateway;
+use App\Models\Plan;
 use App\Services\SystemSettingService;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SystemSettingSeeder extends Seeder
@@ -24,6 +24,11 @@ class SystemSettingSeeder extends Seeder
                 'wallet_module_status' => true,
                 'payment_module_status' => true,
                 'payment_gateway' => PaymentGateway::MONNIFY->lowercase(),
+
+                'active_plan_id' => Plan::query()
+                    ->select('id')
+                    ->orderBy('created_at')
+                    ->value('id'),
 
                 'moniepoint_auth_token' => '{}',
 
