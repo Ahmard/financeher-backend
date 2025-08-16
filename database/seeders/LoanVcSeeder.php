@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\BusinessType;
+use App\Models\Industry;
 use App\Models\GeoCountry;
 use App\Models\OpportunityType;
 use App\Services\LoanVcService;
@@ -18,7 +18,7 @@ class LoanVcSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        $businessTypeIds = BusinessType::query()
+        $businessTypeIds = Industry::query()
             ->select('id')
             ->get()
             ->pluck('id');
@@ -43,7 +43,7 @@ class LoanVcSeeder extends Seeder
             $service->create(
                 createdBy: 1,
                 countryIds: $countryIds,
-                businessTypeId: $businessTypeIds->random(),
+                industryId: $businessTypeIds->random(),
                 opportunityTypeId: $opportunityTypeIds->random(),
                 organisation: $faker->company,
                 lowerAmount: mt_rand(10_000, 50_000),

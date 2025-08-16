@@ -12,6 +12,7 @@ class UserQueryBuilder extends BaseQueryBuilder
     use SearchableQueryBuilderTrait;
 
     protected UserRole $role;
+    protected bool $filterBusiness = false;
 
     public function all(): Builder
     {
@@ -41,6 +42,11 @@ class UserQueryBuilder extends BaseQueryBuilder
         return $this
             ->all()
             ->where('users.is_admin_team_member', true);
+    }
+
+    public function filterBusinesses(): Builder
+    {
+        return $this->all()->where('users.is_admin', false);
     }
 
     public function admins(): Builder

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\BusinessType;
+use App\Models\Industry;
 use App\Models\GeoCountry;
 use App\Models\OpportunityType;
 use App\Services\OpportunityService;
@@ -18,7 +18,7 @@ class OpportunitySeeder extends Seeder
     {
         $faker = Factory::create();
 
-        $businessTypeIds = BusinessType::query()
+        $industryIds = Industry::query()
             ->select('id')
             ->get()
             ->pluck('id');
@@ -34,6 +34,13 @@ class OpportunitySeeder extends Seeder
 
         $total = mt_rand(35, 60);
 
+        $organisations = [
+            'Financeher',
+            'Spiralover',
+            'Foxtive',
+            'Quarkaxis',
+        ];
+
         for ($i = 0; $i < $total; $i++) {
             $countryId = $countries->random()['id'];
 
@@ -41,9 +48,10 @@ class OpportunitySeeder extends Seeder
             $service->create(
                 createdBy: 1,
                 countryId: $countryId,
-                businessTypeId: $businessTypeIds->random(),
+                industryId: $industryIds->random(),
                 opportunityTypeId: $opportunityTypeIds->random(),
                 name: $faker->sentence(),
+                organisation: $organisations[array_rand($organisations)],
                 lowerAmount: mt_rand(10_000, 50_000),
                 upperAmount: mt_rand(55_000, 99_000),
                 overview: $faker->paragraph(),

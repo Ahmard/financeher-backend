@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\UserBusinessType;
-use App\Repositories\UserBusinessTypeRepository;
+use App\Models\UserIndustry;
+use App\Repositories\UserIndustryRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class UserBusinessTypeService extends BasePersistableService
+class UserIndustryService extends BasePersistableService
 {
     public function __construct(
-        private readonly UserBusinessTypeRepository $repository,
+        private readonly UserIndustryRepository $repository,
     ) {
     }
 
@@ -17,7 +17,7 @@ class UserBusinessTypeService extends BasePersistableService
         int    $createdBy,
         int    $userId,
         string $typeId,
-    ): UserBusinessType|Model {
+    ): UserIndustry|Model {
         return $this->repository->create(
             createdBy: $createdBy,
             userId: $userId,
@@ -35,7 +35,7 @@ class UserBusinessTypeService extends BasePersistableService
         $this->repository->deleteById($type['id']);
     }
 
-    public function repository(): UserBusinessTypeRepository
+    public function repository(): UserIndustryRepository
     {
         return $this->repository;
     }

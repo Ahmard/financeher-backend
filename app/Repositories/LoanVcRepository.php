@@ -18,7 +18,7 @@ class LoanVcRepository extends BaseRepository
 
     public function create(
         int    $createdBy,
-        string $businessTypeId,
+        string $industryId,
         string $opportunityTypeId,
         string $organisation,
         float  $lowerAmount,
@@ -31,7 +31,7 @@ class LoanVcRepository extends BaseRepository
     {
         return LoanVc::query()->create([
             'created_by' => $createdBy,
-            'business_type_id' => $businessTypeId,
+            'industry_id' => $industryId,
             'opportunity_type_id' => $opportunityTypeId,
             'organisation' => $organisation,
             'lower_amount' => $lowerAmount,

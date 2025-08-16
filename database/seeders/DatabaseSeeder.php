@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         define('IS_MIGRATING', true);
 
         $this->call(GeoDataSeeder::class);
-        $this->call(BusinessTypeSeeder::class);
+        $this->call(IndustrySeeder::class);
         $this->call(BusinessStageSeeder::class);
         $this->call(OpportunityTypeSeeder::class);
         $this->call(RoleSeeder::class);

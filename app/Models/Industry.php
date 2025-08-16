@@ -9,13 +9,13 @@ use Nicolaslopezj\Searchable\SearchableTrait;
 /**
  * @property User $user
  */
-class BusinessType extends BaseModel
+class Industry extends BaseModel
 {
     use HasUuids;
     use SoftDeletes;
     use SearchableTrait;
 
-    protected string $modelTitle = 'business type';
+    protected string $modelTitle = 'industry';
 
     protected $hidden = [
         'deleted_at',
@@ -24,10 +24,10 @@ class BusinessType extends BaseModel
 
     protected array $searchable = [
         'columns' => [
-            'business_types.name' => 10,
-            'business_types.id' => 9,
-            'business_types.code' => 9,
-            'business_types.description' => 8,
+            'industries.name' => 10,
+            'industries.id' => 9,
+            'industries.code' => 9,
+            'industries.description' => 8,
         ],
     ];
 }

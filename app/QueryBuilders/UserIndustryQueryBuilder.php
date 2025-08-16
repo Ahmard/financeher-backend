@@ -2,13 +2,13 @@
 
 namespace App\QueryBuilders;
 
-use App\Models\UserBusinessType;
+use App\Models\UserIndustry;
 use Illuminate\Database\Eloquent\Builder;
 
-class UserBusinessTypeQueryBuilder extends BaseQueryBuilder
+class UserIndustryQueryBuilder extends BaseQueryBuilder
 {
     protected function builder(): Builder
     {
-        return UserBusinessType::query();
+        return UserIndustry::query();
     }
 }

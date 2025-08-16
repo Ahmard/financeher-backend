@@ -38,10 +38,11 @@ class UserService extends BasePersistableService
         private readonly FileUploadService          $fileUploadService,
         private readonly MailService                $mailService,
         private readonly WalletService              $walletService,
-        private readonly UserBusinessTypeService    $userBusinessTypeService,
+        private readonly UserIndustryService        $userBusinessTypeService,
         private readonly UserBusinessStageService   $userBusinessStageService,
         private readonly UserOpportunityTypeService $userOpportunityTypeService,
-    ) {
+    )
+    {
     }
 
     public function setupAccount(
@@ -49,7 +50,8 @@ class UserService extends BasePersistableService
         array $businessTypeIds,
         array $businessStageIds,
         array $opportunityTypeIds,
-    ): void {
+    ): void
+    {
         foreach ($businessStageIds as $businessStageId) {
             $this->userBusinessStageService->create(
                 createdBy: $userId,
@@ -77,20 +79,24 @@ class UserService extends BasePersistableService
 
     public function create(
         ?int       $invitedBy,
+        ?string    $industryId,
         ?string    $businessName,
         string     $firstName,
         ?string    $lastName,
         string     $email,
         ?string    $rawPassword,
         ?string    $mobileNumber,
+        bool       $isAdmin,
         ?string    $profilePicture = null,
         bool       $withVerificationEmail = false,
         UserRole   $role = UserRole::USER,
         UserStatus $status = UserStatus::ACTIVE,
-    ): User|Model {
+    ): User|Model
+    {
         $token = md5(Uuid::uuid4() . Uuid::uuid4());
         $user = $this->repository->create(
             invitedBy: $invitedBy,
+            industryId: $industryId,
             businessName: $businessName,
             firstName: $firstName,
             lastName: $lastName,
@@ -99,6 +105,7 @@ class UserService extends BasePersistableService
             mobileNumber: $mobileNumber,
             accountVerificationCode: strval(mt_rand(100000, 999999)),
             accountVerificationToken: $token,
+            isAdmin: $isAdmin,
             profilePicture: $profilePicture,
             status: $status,
         );
@@ -153,7 +160,8 @@ class UserService extends BasePersistableService
         string  $mobileNumber,
         ?string $profilePicture = null,
         ?string $nin = null,
-    ): Model|User {
+    ): Model|User
+    {
         return $this->repository->update(
             id: $id,
             firstName: $firstName,
@@ -166,11 +174,12 @@ class UserService extends BasePersistableService
     }
 
     public function activate(
-        int                 $id,
-        int                 $activatedBy,
-        string              $reason,
-        ?LogTrailEntityType $subPawnType = null
-    ): Model|User {
+        int     $id,
+        int     $activatedBy,
+        string  $reason,
+        ?string $ownerId = null,
+    ): Model|User
+    {
         $user = $this->repository->changeStatus(
             id: $id,
             status: UserStatus::ACTIVE
@@ -184,18 +193,19 @@ class UserService extends BasePersistableService
             desc: 'activated user',
             data: $user,
             reason: $reason,
-            entitySubType: $subPawnType,
+            entitySubType: $ownerId,
         );
 
         return $user;
     }
 
     public function deactivate(
-        int                 $id,
-        int                 $deactivatedBy,
-        string              $reason,
-        ?LogTrailEntityType $subPawnType = null
-    ): Model|User {
+        int     $id,
+        int     $deactivatedBy,
+        string  $reason,
+        ?string $ownerId = null,
+    ): Model|User
+    {
         $user = $this->repository->changeStatus(
             id: $id,
             status: UserStatus::INACTIVE
@@ -209,10 +219,23 @@ class UserService extends BasePersistableService
             desc: 'deactivated user',
             data: $user,
             reason: $reason,
-            entitySubType: $subPawnType,
+            entitySubType: $ownerId,
         );
 
         return $user;
+    }
+
+    public function pageMetrics(): array
+    {
+        return [
+            'all' => User::query()->count(),
+            'active' => User::query()
+                ->where('status', UserStatus::ACTIVE->lowercase())
+                ->count(),
+            'suspended' => User::query()
+                ->where('status', UserStatus::INACTIVE->lowercase())
+                ->count(),
+        ];
     }
 
     public static function clearCache(int $userId): void

@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\UserBusinessType;
-use App\QueryBuilders\UserBusinessTypeQueryBuilder;
+use App\Models\UserIndustry;
+use App\QueryBuilders\UserIndustryQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 
-class UserBusinessTypeRepository extends BaseRepository
+class UserIndustryRepository extends BaseRepository
 {
     public function __construct(
-        private readonly UserBusinessTypeQueryBuilder $queryBuilder,
+        private readonly UserIndustryQueryBuilder $queryBuilder,
     ) {
     }
 
@@ -17,15 +17,15 @@ class UserBusinessTypeRepository extends BaseRepository
         int    $createdBy,
         int    $userId,
         string $typeId,
-    ): UserBusinessType|Model {
-        return UserBusinessType::query()->create([
+    ): UserIndustry|Model {
+        return UserIndustry::query()->create([
             'created_by' => $createdBy,
             'user_id' => $userId,
             'business_type_id' => $typeId,
         ]);
     }
 
-    public function queryBuilder(): UserBusinessTypeQueryBuilder
+    public function queryBuilder(): UserIndustryQueryBuilder
     {
         return $this->queryBuilder;
     }

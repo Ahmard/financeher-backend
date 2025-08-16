@@ -7,10 +7,25 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 
 abstract class Controller
 {
-    public function getFilter(string $name): ?string
+    private array $filters;
+
+    public function getFilter(string $name): mixed
     {
-        $params = request()->get('filter') ?? [];
-        return $params[$name] ?? null;
+        $this->setFilters();
+        return $this->filters[$name] ?? null;
+    }
+
+    public function hasFilter(string $name): bool
+    {
+        $this->setFilters();
+        return isset($this->filters[$name]);
+    }
+
+    private function setFilters()
+    {
+        if (!isset($this->filters)) {
+            $this->filters = request()->get('filter') ?? [];
+        }
     }
 
     public function getSearchQuery(): ?string

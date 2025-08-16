@@ -89,6 +89,8 @@ class AuthService extends BaseService
     }
 
     /**
+     * @param string|null $industryId
+     * @param string|null $businessStageId
      * @param string|null $businessName
      * @param string $firstName
      * @param string|null $lastName
@@ -101,6 +103,7 @@ class AuthService extends BaseService
      * @throws WarningException
      */
     public function register(
+        ?string    $industryId,
         ?string    $businessName,
         string     $firstName,
         ?string    $lastName,
@@ -111,6 +114,7 @@ class AuthService extends BaseService
         UserStatus $status = UserStatus::ACTIVE,
     ): User|Model {
         return $this->registerService->create(
+            industryId: $industryId,
             businessName: $businessName,
             firstName: $firstName,
             lastName: $lastName,

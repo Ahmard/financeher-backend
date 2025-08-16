@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_business_types', function (Blueprint $table) {
+        Schema::create('user_industries', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
             $table->foreignId('user_id')
@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreignId('created_by')
                 ->constrained('users');
 
-            $table->foreignUuid('business_type_id')
-                ->constrained('business_types');
+            $table->foreignUuid('industry_id')
+                ->constrained('industries');
 
             $table->softDeletesTz();
             $table->timestampsTz();
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_business_types');
+        Schema::dropIfExists('user_industries');
     }
 };

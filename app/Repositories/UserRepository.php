@@ -18,24 +18,29 @@ class UserRepository extends BaseRepository
 {
     public function __construct(
         private readonly UserQueryBuilder $queryBuilder,
-    ) {
+    )
+    {
     }
 
     public function create(
-        ?int    $invitedBy,
-        ?string $businessName,
-        string  $firstName,
-        ?string $lastName,
-        string  $email,
-        ?string $password,
-        ?string $mobileNumber,
-        string  $accountVerificationCode,
-        string  $accountVerificationToken,
-        ?string $profilePicture = null,
+        ?int       $invitedBy,
+        ?string    $industryId,
+        ?string    $businessName,
+        string     $firstName,
+        ?string    $lastName,
+        string     $email,
+        ?string    $password,
+        ?string    $mobileNumber,
+        string     $accountVerificationCode,
+        string     $accountVerificationToken,
+        bool       $isAdmin,
+        ?string    $profilePicture = null,
         UserStatus $status = UserStatus::ACTIVE,
-    ): User|Model {
+    ): User|Model
+    {
         return User::query()->create([
             'invited_by' => $invitedBy,
+            'industry_id' => $industryId,
             'business_name' => $businessName,
             'first_name' => $firstName,
             'last_name' => $lastName,
@@ -45,6 +50,7 @@ class UserRepository extends BaseRepository
             'email_verification_code' => $accountVerificationCode,
             'email_verification_token' => $accountVerificationToken,
             'password' => $password,
+            'is_admin' => $isAdmin,
             'has_password' => !empty($password),
             'status' => $status->lowercase(),
             'registration_stage' => UserRegistrationStage::EMAIL_VERIFICATION->lowercase(),
@@ -59,7 +65,8 @@ class UserRepository extends BaseRepository
         string  $mobileNumber,
         ?string $profilePicture = null,
         ?string $nin = null,
-    ): Model|User {
+    ): Model|User
+    {
         $user = $this->findRequiredById($id);
         $user->update([
             'first_name' => $firstName,

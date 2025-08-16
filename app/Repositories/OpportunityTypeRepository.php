@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Models\BusinessType;
+use App\Models\Industry;
 use App\Models\OpportunityType;
 use App\QueryBuilders\BaseQueryBuilder;
-use App\QueryBuilders\BusinessTypeQueryBuilder;
+use App\QueryBuilders\IndustryQueryBuilder;
 use App\QueryBuilders\OpportunityTypeQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 

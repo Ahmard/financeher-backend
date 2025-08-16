@@ -31,6 +31,7 @@ class RegisterPostRequest extends FormRequest
             'mobile_number' => ['nullable', PhoneNumberValidator::create(), 'unique:users,mobile_number'],
             'password' => ['required', PasswordValidator::create()],
             'country_id' => 'nullable|uuid|exists:geo_countries,id',
+            'industry_id' => 'nullable|uuid|exists:industries,id',
         ];
     }
 }

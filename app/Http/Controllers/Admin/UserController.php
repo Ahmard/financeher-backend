@@ -48,6 +48,25 @@ class UserController extends Controller
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    public function businesses(): JsonResponse
+    {
+        $builder = $this->service
+            ->repository()
+            ->queryBuilder()
+            ->withSearch($this->getSearchQuery())
+            ->filterBusinesses();
+
+        return $this->responder->datatableFilterable(
+            builder: $builder,
+            responseMessage: 'Business list fetched successfully'
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function active(): JsonResponse
     {
         $builder = $this->service
@@ -60,6 +79,14 @@ class UserController extends Controller
         return $this->responder->datatableFilterable(
             builder: $builder,
             responseMessage: 'Active user list fetched successfully'
+        );
+    }
+
+    public function pageMetrics(): JsonResponse
+    {
+        return $this->responder()->success(
+            data: $this->service->pageMetrics(),
+            message: 'Plan metrics retrieved successfully'
         );
     }
 

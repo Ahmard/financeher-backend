@@ -70,6 +70,8 @@ class User extends Authenticatable implements JWTSubject
     protected function casts(): array
     {
         return [
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
             'email_verified_at' => 'datetime',
             'last_login_at' => 'datetime',
             'last_password_reset_at' => 'datetime',
@@ -77,6 +79,7 @@ class User extends Authenticatable implements JWTSubject
             'has_password' => 'boolean',
             'is_password_locked' => 'boolean',
             'has_started_password_reset' => 'boolean',
+            'is_admin' => 'boolean',
         ];
     }
     // Rest omitted for brevity

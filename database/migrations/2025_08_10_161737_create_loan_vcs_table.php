@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId('created_by')
                 ->constrained('users');
 
-            $table->foreignUuid('business_type_id')
-                ->constrained('business_types');
+            $table->foreignUuid('industry_id')
+                ->constrained('industries');
 
             $table->foreignUuid('opportunity_type_id')
                 ->constrained('opportunity_types');

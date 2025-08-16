@@ -32,7 +32,7 @@ class LoanVcService extends BasePersistableService
     public function create(
         int    $createdBy,
         array  $countryIds,
-        string $businessTypeId,
+        string $industryId,
         string $opportunityTypeId,
         string $organisation,
         float  $lowerAmount,
@@ -49,7 +49,7 @@ class LoanVcService extends BasePersistableService
 
         $loanVc = $this->repository->create(
             createdBy: $createdBy,
-            businessTypeId: $businessTypeId,
+            industryId: $industryId,
             opportunityTypeId: $opportunityTypeId,
             organisation: $organisation,
             lowerAmount: $lowerAmount,

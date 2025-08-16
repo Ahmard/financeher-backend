@@ -53,7 +53,7 @@ class LoanVcController extends Controller
         $opp = $this->service->create(
             createdBy: Auth::id(),
             countryIds: $request->validated('country_ids'),
-            businessTypeId: $request->validated('business_type_id'),
+            industryId: $request->validated('industry_id'),
             opportunityTypeId: $request->validated('opportunity_type_id'),
             organisation: $request->validated('organisation'),
             lowerAmount: $request->validated('min_amount'),

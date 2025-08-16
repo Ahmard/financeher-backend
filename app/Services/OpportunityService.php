@@ -29,9 +29,10 @@ class OpportunityService extends BasePersistableService
     public function create(
         int    $createdBy,
         string $countryId,
-        string $businessTypeId,
+        string $industryId,
         string $opportunityTypeId,
         string $name,
+        string $organisation,
         float  $lowerAmount,
         float  $upperAmount,
         string $overview,
@@ -40,16 +41,17 @@ class OpportunityService extends BasePersistableService
     ): Opportunity|Model
     {
         $logo = match (defined('IS_MIGRATING')) {
-            true => '/logo.png',
+            true => '/images/spiralover.png',
             false => Uploader::image(fieldName: 'logo')[0]->getRelativePath(),
         };
 
         return $this->repository->create(
             createdBy: $createdBy,
             countryId: $countryId,
-            businessTypeId: $businessTypeId,
+            industryId: $industryId,
             opportunityTypeId: $opportunityTypeId,
             name: $name,
+            organisation: $organisation,
             lowerAmount: $lowerAmount,
             upperAmount: $upperAmount,
             logo: $logo,
@@ -66,6 +68,7 @@ class OpportunityService extends BasePersistableService
         string $businessTypeId,
         string $opportunityTypeId,
         string $name,
+        string $organisation,
         float  $lowerAmount,
         float  $upperAmount,
         string $overview,
@@ -86,6 +89,7 @@ class OpportunityService extends BasePersistableService
             businessTypeId: $businessTypeId,
             opportunityTypeId: $opportunityTypeId,
             name: $name,
+            organisation: $organisation,
             lowerAmount: $lowerAmount,
             upperAmount: $upperAmount,
             logo: $logo,

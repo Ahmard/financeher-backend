@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\BusinessType;
-use App\QueryBuilders\BusinessTypeQueryBuilder;
+use App\Models\Industry;
+use App\QueryBuilders\IndustryQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 
-class BusinessTypeRepository extends BaseRepository
+class IndustryRepository extends BaseRepository
 {
     public function __construct(
-        private readonly BusinessTypeQueryBuilder $queryBuilder,
+        private readonly IndustryQueryBuilder $queryBuilder,
     ) {
     }
 
@@ -18,8 +18,8 @@ class BusinessTypeRepository extends BaseRepository
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessType|Model {
-        return BusinessType::query()->create([
+    ): Industry|Model {
+        return Industry::query()->create([
             'created_by' => $createdBy,
             'name' => $name,
             'code' => $code,
@@ -32,7 +32,7 @@ class BusinessTypeRepository extends BaseRepository
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessType|Model {
+    ): Industry|Model {
         $type = $this->findRequiredById($id);
         $type->update([
             'name' => $name,
@@ -43,7 +43,7 @@ class BusinessTypeRepository extends BaseRepository
         return $type;
     }
 
-    public function queryBuilder(): BusinessTypeQueryBuilder
+    public function queryBuilder(): IndustryQueryBuilder
     {
         return $this->queryBuilder;
     }

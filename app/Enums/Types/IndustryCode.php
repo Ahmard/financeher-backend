@@ -5,7 +5,7 @@ namespace App\Enums\Types;
 use App\Enums\EnumHelper\DBCompatibleEnumInterface;
 use App\Enums\EnumHelper\DBCompatibleEnumTrait;
 
-enum BusinessTypeCode: string implements DBCompatibleEnumInterface
+enum IndustryCode: string implements DBCompatibleEnumInterface
 {
     use DBCompatibleEnumTrait;
 

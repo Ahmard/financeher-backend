@@ -20,13 +20,14 @@ return new class extends Migration {
             $table->foreignUuid('country_id')
                 ->constrained('geo_countries');
 
-            $table->foreignUuid('business_type_id')
-                ->constrained('business_types');
+            $table->foreignUuid('industry_id')
+                ->constrained('industries');
 
             $table->foreignUuid('opportunity_type_id')
                 ->constrained('opportunity_types');
 
             $table->string('name');
+            $table->string('organisation');
             $table->string('currency', 3)->default('USD');
             $table->decimal('lower_amount', 20, 4);
             $table->decimal('upper_amount', 20, 4);

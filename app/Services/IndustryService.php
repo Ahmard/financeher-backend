@@ -4,18 +4,18 @@ namespace App\Services;
 
 use App\Enums\Types\LogTrailActionType;
 use App\Enums\Types\LogTrailEntityType;
-use App\Models\BusinessType;
+use App\Models\Industry;
 use App\Repositories\BaseRepository;
-use App\Repositories\BusinessTypeRepository;
+use App\Repositories\IndustryRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class BusinessTypeService extends BasePersistableService
+class IndustryService extends BasePersistableService
 {
     private LogTrailEntityType $logTrailEntityType = LogTrailEntityType::BUSINESS_TYPE;
 
     public function __construct(
-        private readonly BusinessTypeRepository $repository,
-        private readonly LogTrailService        $logTrailService,
+        private readonly IndustryRepository $repository,
+        private readonly LogTrailService    $logTrailService,
     ) {
     }
 
@@ -24,7 +24,7 @@ class BusinessTypeService extends BasePersistableService
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessType|Model {
+    ): Industry|Model {
         return $this->repository->create(
             createdBy: $createdBy,
             name: $name,
@@ -40,7 +40,7 @@ class BusinessTypeService extends BasePersistableService
         string  $name,
         ?string $code,
         string  $desc
-    ): BusinessType|Model {
+    ): Industry|Model {
         $type = $this->repository->update(
             id: $id,
             name: $name,
@@ -53,7 +53,7 @@ class BusinessTypeService extends BasePersistableService
             entityId: $id,
             entityType: $this->logTrailEntityType,
             action: LogTrailActionType::UPDATE,
-            desc: 'Business type updated',
+            desc: 'Industry updated',
             data: $type,
         );
 

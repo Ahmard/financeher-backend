@@ -23,6 +23,9 @@ return new class extends Migration {
                 ->nullable()
                 ->constrained('users');
 
+            $table->uuid('industry_id')->nullable();
+            $table->uuid('business_stage_id')->nullable();
+
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->string('mobile_number')->nullable();
@@ -34,6 +37,8 @@ return new class extends Migration {
 
             $table->string('profile_picture')->nullable();
 
+            $table->boolean('is_admin')->default(true);
+
             $table->enum('registration_stage', UserRegistrationStage::getDBCompatibleEnum())
                 ->default(UserRegistrationStage::EMAIL_VERIFICATION->lowercase());
 
@@ -41,6 +46,8 @@ return new class extends Migration {
             $table->string('email_verification_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->smallInteger('plan_duration')->default(0);
 
             $table->smallInteger('failed_logins')->default(0);
             $table->boolean('has_password');

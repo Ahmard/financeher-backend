@@ -28,6 +28,7 @@ class OpportunityCreateRequest extends FormRequest
             'business_type_id' => 'required|exists:business_types,id',
             'opportunity_type_id' => 'required|exists:opportunity_types,id',
             'name' => 'required|string|max:255',
+            'organisation' => 'required|string|max:255',
             'min_amount' => 'required|numeric|min:0',
             'max_amount' => 'required|numeric|min:0',
             'overview' => 'required|string',

@@ -37,6 +37,7 @@ class RegisterController extends Controller
         ] = UserService::FirstLastNameFromFullName($fullName);
 
         $access = $this->authService->register(
+            industryId: $request->validated('industry_id'),
             businessName: null,
             firstName: $firstName,
             lastName: $lastName,
