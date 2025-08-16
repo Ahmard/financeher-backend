@@ -10,18 +10,20 @@ class UserIndustryService extends BasePersistableService
 {
     public function __construct(
         private readonly UserIndustryRepository $repository,
-    ) {
+    )
+    {
     }
 
     public function create(
         int    $createdBy,
         int    $userId,
-        string $typeId,
-    ): UserIndustry|Model {
+        string $industryId,
+    ): UserIndustry|Model
+    {
         return $this->repository->create(
             createdBy: $createdBy,
             userId: $userId,
-            typeId: $typeId,
+            industryId: $industryId,
         );
     }
 

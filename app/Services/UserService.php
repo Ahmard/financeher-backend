@@ -7,6 +7,7 @@ use App\Enums\Statuses\UserStatus;
 use App\Enums\Types\LogTrailActionType;
 use App\Enums\Types\LogTrailEntityType;
 use App\Enums\Types\SystemMessageType;
+use App\Enums\Types\UserRegistrationStage;
 use App\Enums\UserRole;
 use App\Exceptions\ModelNotFoundException;
 use App\Exceptions\WarningException;
@@ -38,7 +39,7 @@ class UserService extends BasePersistableService
         private readonly FileUploadService          $fileUploadService,
         private readonly MailService                $mailService,
         private readonly WalletService              $walletService,
-        private readonly UserIndustryService        $userBusinessTypeService,
+        private readonly UserIndustryService        $userIndustryService,
         private readonly UserBusinessStageService   $userBusinessStageService,
         private readonly UserOpportunityTypeService $userOpportunityTypeService,
     )
@@ -46,25 +47,23 @@ class UserService extends BasePersistableService
     }
 
     public function setupAccount(
-        int   $userId,
-        array $businessTypeIds,
-        array $businessStageIds,
-        array $opportunityTypeIds,
-    ): void
+        int    $userId,
+        string $businessStageId,
+        array  $industryIds,
+        array  $opportunityTypeIds,
+    ): User|Model
     {
-        foreach ($businessStageIds as $businessStageId) {
-            $this->userBusinessStageService->create(
-                createdBy: $userId,
-                userId: $userId,
-                stageId: $businessStageId,
-            );
-        }
+        $user = $this->repository->findRequiredById($userId);
+        $user->update([
+            'business_stage_id' => $businessStageId,
+            'registration_stage' => UserRegistrationStage::COMPLETED->lowercase(),
+        ]);
 
-        foreach ($businessTypeIds as $businessTypeId) {
-            $this->userBusinessTypeService->create(
+        foreach ($industryIds as $industryId) {
+            $this->userIndustryService->create(
                 createdBy: $userId,
                 userId: $userId,
-                typeId: $businessTypeId,
+                industryId: $industryId,
             );
         }
 
@@ -75,6 +74,8 @@ class UserService extends BasePersistableService
                 typeId: $opportunityTypeId,
             );
         }
+
+        return $user;
     }
 
     public function create(
@@ -306,6 +307,7 @@ class UserService extends BasePersistableService
         $cols = [
             'email_verified_at' => Carbon::now(),
             'email_verification_token' => null,
+            'registration_stage' => UserRegistrationStage::PLAN_SUBSCRIPTION->lowercase(),
         ];
 
         if ($user['is_admin_team_member']) {
@@ -315,6 +317,14 @@ class UserService extends BasePersistableService
         $user->update($cols);
 
         return $user;
+    }
+
+    public function markAsPaymentMade(int $id): void
+    {
+        $user = $this->repository->findRequiredById($id);
+        $user->update([
+            'registration_stage' => UserRegistrationStage::ACCOUNT_SETUP->lowercase(),
+        ]);
     }
 
     /**

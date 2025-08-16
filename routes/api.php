@@ -14,10 +14,11 @@ Route::prefix('admin')
 Route::middleware('auth.perm')->group(fn() => require 'api/user.php');
 
 Route::middleware('auth.perm')->group(function () {
+    Route::post('account-setup/finalise', [ProfileController::class, 'finaliseAccountSetup']);
+
     Route::get('profile', [ProfileController::class, 'info']);
     Route::put('profile', [ProfileController::class, 'update']);
     Route::post('profile/picture', [ProfileController::class, 'uploadProfilePicture']);
-
 
     Route::prefix('opportunities')->group(function () {
         Route::get('/', [OpportunityController::class, 'index']);

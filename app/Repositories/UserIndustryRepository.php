@@ -10,18 +10,20 @@ class UserIndustryRepository extends BaseRepository
 {
     public function __construct(
         private readonly UserIndustryQueryBuilder $queryBuilder,
-    ) {
+    )
+    {
     }
 
     public function create(
         int    $createdBy,
         int    $userId,
-        string $typeId,
-    ): UserIndustry|Model {
+        string $industryId,
+    ): UserIndustry|Model
+    {
         return UserIndustry::query()->create([
             'created_by' => $createdBy,
             'user_id' => $userId,
-            'business_type_id' => $typeId,
+            'industry_id' => $industryId,
         ]);
     }
 

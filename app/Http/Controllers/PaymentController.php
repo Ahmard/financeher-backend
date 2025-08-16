@@ -15,8 +15,10 @@ use App\Models\Payment;
 use App\Models\Plan;
 use App\Repositories\PaymentRepository;
 use App\Services\PaymentService;
+use App\Services\UserService;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -206,7 +208,9 @@ class PaymentController extends Controller
 
             if ($session->payment_status === 'paid') {
                 // Create subscription record if not already created
-                $this->createSubscriptionFromSession($session);
+                $payment = $this->createSubscriptionFromSession($session);
+
+                UserService::new()->markAsPaymentMade($payment['payer_id']);
 
                 return $this->responder->success(
                     data: [
@@ -263,7 +267,7 @@ class PaymentController extends Controller
     /**
      * Create subscription from Stripe session
      */
-    private function createSubscriptionFromSession($session): void
+    private function createSubscriptionFromSession($session): Payment|Model
     {
         try {
             $metadata = $session['metadata']->toArray() ?? [];
@@ -272,7 +276,7 @@ class PaymentController extends Controller
 
             if (!$userId) {
                 Log::error('No user_id found in session metadata', ['session_id' => $session['id']]);
-                return;
+                throw new \InvalidArgumentException('No user_id found in session metadata');
             }
 
             // Check if payment already exists to avoid duplicates
@@ -282,10 +286,10 @@ class PaymentController extends Controller
 
             if ($existingPayment) {
                 Log::info('Payment already exists for session', ['session_id' => $session['id']]);
-                return;
+                return $existingPayment;
             }
 
-            PaymentRepository::new()->init(
+            $payment = PaymentRepository::new()->init(
                 payerId: $userId,
                 amount: $session['amount_total'], // This is already in pence/cents
                 charges: 0,
@@ -303,11 +307,14 @@ class PaymentController extends Controller
                 'amount' => $session['amount_total']
             ]);
 
+            return $payment;
         } catch (\Exception $e) {
             Log::error('Failed to create subscription from session', [
                 'session_id' => $session['id'],
                 'error' => $e->getMessage()
             ]);
+
+            throw $e;
         }
     }
 

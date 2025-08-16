@@ -12,4 +12,5 @@ enum UserRegistrationStage implements DBCompatibleEnumInterface
     case EMAIL_VERIFICATION;
     case PLAN_SUBSCRIPTION;
     case ACCOUNT_SETUP;
+    case COMPLETED;
 }
