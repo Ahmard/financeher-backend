@@ -18,8 +18,14 @@ Route::middleware('auth.perm')->group(function () {
     Route::put('profile', [ProfileController::class, 'update']);
     Route::post('profile/picture', [ProfileController::class, 'uploadProfilePicture']);
 
-    Route::get('opportunities', [OpportunityController::class, 'index']);
-    Route::get('opportunities/{id}', [OpportunityController::class, 'show']);
+
+    Route::prefix('opportunities')->group(function () {
+        Route::get('/', [OpportunityController::class, 'index']);
+        Route::get('/saved-items', [OpportunityController::class, 'savedItems']);
+        Route::post('/saved-items', [OpportunityController::class, 'saveItem']);
+        Route::delete('/saved-items/{oid}', [OpportunityController::class, 'removeItem']);
+        Route::get('/{id}', [OpportunityController::class, 'show']);
+    });
 
     Route::prefix('payments')->group(function () {
         Route::get('/', [PaymentController::class, 'index']);

@@ -161,7 +161,7 @@ class OpportunityService extends BasePersistableService
         ];
     }
 
-    public function repository(): BaseRepository
+    public function repository(): OpportunityRepository
     {
         return $this->repository;
     }

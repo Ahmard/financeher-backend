@@ -6,6 +6,7 @@ use App\Models\Opportunity;
 use App\QueryBuilders\BaseQueryBuilder;
 use App\QueryBuilders\OpportunityQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class OpportunityRepository extends BaseRepository
 {
@@ -78,7 +79,14 @@ class OpportunityRepository extends BaseRepository
         return $opportunity;
     }
 
-    public function queryBuilder(): BaseQueryBuilder
+    public function findDetailed(string $id, int $userId): array
+    {
+        $opp = $this->findRequiredById($id)->toArray();
+        $opp['is_saved'] = SavedOpportunityRepository::new()->isSaved($userId, $id);
+        return $opp;
+    }
+
+    public function queryBuilder(): OpportunityQueryBuilder
     {
         return $this->queryBuilder;
     }
