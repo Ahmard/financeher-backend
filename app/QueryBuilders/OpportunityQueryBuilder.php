@@ -74,6 +74,48 @@ class OpportunityQueryBuilder extends BaseQueryBuilder
         return $builder;
     }
 
+    public function filterUserDetailed(int $userId): Builder
+    {
+        return $this
+            ->all()
+            ->select([
+                'opportunities.id',
+                'opportunities.name',
+                'opportunities.organisation',
+                'opportunities.created_by',
+                'opportunities.industry_id',
+                'opportunities.opportunity_type_id',
+                'opportunities.lower_amount',
+                'opportunities.upper_amount',
+                'opportunities.logo',
+                'opportunities.status',
+                'opportunities.application_url',
+                'opportunities.closing_at',
+                'opportunities.created_at',
+                'industries.name as industry_name',
+                'opportunity_types.name as opportunity_type_name',
+            ])
+            ->selectSub(
+                function (\Illuminate\Database\Query\Builder $query) use ($userId) {
+                    $query->from('applied_opportunities')
+                        ->selectRaw('COUNT(applied_opportunities.id)')
+                        ->whereColumn('opportunity_id', 'opportunities.id')
+                        ->where('user_id', $userId);
+                },
+                'has_applied'
+            )
+            ->selectSub(
+                function (\Illuminate\Database\Query\Builder $query) use ($userId) {
+                    $query->from('saved_opportunities')
+                        ->selectRaw('COUNT(saved_opportunities.id)')
+                        ->whereColumn('opportunity_id', 'opportunities.id')
+                        ->where('user_id', $userId);
+                },
+                'is_saved'
+            )
+            ->distinct();
+    }
+
     protected function builder(): Builder
     {
         $cols = [

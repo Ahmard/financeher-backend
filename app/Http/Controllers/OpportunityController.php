@@ -49,7 +49,7 @@ class OpportunityController extends Controller
         return $this->responder->datatableFilterable(
             builder: $queryBuilder
                 ->withSearch($this->getSearchQuery())
-                ->all(),
+                ->filterUserDetailed(Auth::id()),
             responseMessage: 'Opportunities fetched successfully'
         );
     }
