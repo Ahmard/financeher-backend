@@ -21,6 +21,8 @@ Route::middleware('auth.perm')->group(function () {
 
     Route::prefix('opportunities')->group(function () {
         Route::get('/', [OpportunityController::class, 'index']);
+        Route::get('/applied-items', [OpportunityController::class, 'appliedItems']);
+        Route::post('/applied-items', [OpportunityController::class, 'apply']);
         Route::get('/saved-items', [OpportunityController::class, 'savedItems']);
         Route::post('/saved-items', [OpportunityController::class, 'saveItem']);
         Route::delete('/saved-items/{oid}', [OpportunityController::class, 'removeItem']);

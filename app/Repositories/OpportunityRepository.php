@@ -83,6 +83,7 @@ class OpportunityRepository extends BaseRepository
     {
         $opp = $this->findRequiredById($id)->toArray();
         $opp['is_saved'] = SavedOpportunityRepository::new()->isSaved($userId, $id);
+        $opp['has_applied'] = AppliedOpportunityRepository::new()->isApplied($userId, $id);
         return $opp;
     }
 

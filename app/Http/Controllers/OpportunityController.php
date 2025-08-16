@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Http\Responder;
-use App\Http\Requests\Customer\SavedOpportunityCreateRequest;
+use App\Http\Requests\Customer\OpportunityIdRequest;
+use App\QueryBuilders\AppliedOpportunityQueryBuilder;
 use App\QueryBuilders\SavedOpportunityQueryBuilder;
+use App\Services\AppliedOpportunityService;
 use App\Services\OpportunityService;
 use App\Services\SavedOpportunityService;
 use Illuminate\Http\JsonResponse;
@@ -63,6 +65,32 @@ class OpportunityController extends Controller
         );
     }
 
+    public function appliedItems(AppliedOpportunityQueryBuilder $queryBuilder): JsonResponse
+    {
+        return $this->responder->datatableFilterable(
+            builder: $queryBuilder
+                ->withSearch($this->getSearchQuery())
+                ->all(),
+            responseMessage: 'Applied opportunities fetched successfully'
+        );
+    }
+
+    public function apply(OpportunityIdRequest $request, AppliedOpportunityService $service): JsonResponse
+    {
+        $item = $service->create(
+            userId: Auth::id(),
+            oppId: $request->validated('id')
+        );
+
+        return $this->responder->created(
+            data: $this->service->repository()->findDetailed(
+                id: $item['opportunity_id'],
+                userId: Auth::id(),
+            ),
+            message: 'Opportunity applied successfully'
+        );
+    }
+
     public function savedItems(SavedOpportunityQueryBuilder $queryBuilder): JsonResponse
     {
         return $this->responder->datatableFilterable(
@@ -73,14 +101,12 @@ class OpportunityController extends Controller
         );
     }
 
-    public function saveItem(SavedOpportunityCreateRequest $request, SavedOpportunityService $service): JsonResponse
+    public function saveItem(OpportunityIdRequest $request, SavedOpportunityService $service): JsonResponse
     {
         $item = $service->create(
             userId: Auth::id(),
             oppId: $request->validated('id')
         );
-
-        Log::debug($item->toArray());
 
         return $this->responder->created(
             data: $this->service->repository()->findDetailed(
