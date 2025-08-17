@@ -36,7 +36,9 @@ Route::apiResource('permissions', PermissionController::class);
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('page-metrics', [UserController::class, 'pageMetrics']);
+    Route::get('/admins', [UserController::class, 'admins']);
     Route::get('/businesses', [UserController::class, 'businesses']);
+    Route::get('/businesses/page-metrics', [UserController::class, 'customerPageMetrics']);
     Route::get('/active', [UserController::class, 'active']);
     Route::get('/suspended', [UserController::class, 'suspended']);
     Route::get('{id}', [UserController::class, 'show']);

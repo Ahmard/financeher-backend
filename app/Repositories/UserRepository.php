@@ -25,7 +25,6 @@ class UserRepository extends BaseRepository
     public function create(
         ?int       $invitedBy,
         ?string    $industryId,
-        ?string    $businessName,
         string     $firstName,
         ?string    $lastName,
         string     $email,
@@ -41,7 +40,6 @@ class UserRepository extends BaseRepository
         return User::query()->create([
             'invited_by' => $invitedBy,
             'industry_id' => $industryId,
-            'business_name' => $businessName,
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $email,
@@ -62,9 +60,8 @@ class UserRepository extends BaseRepository
         string  $firstName,
         ?string $lastName,
         string  $email,
-        string  $mobileNumber,
+        ?string $mobileNumber,
         ?string $profilePicture = null,
-        ?string $nin = null,
     ): Model|User
     {
         $user = $this->findRequiredById($id);
@@ -74,7 +71,6 @@ class UserRepository extends BaseRepository
             'email' => $email,
             'mobile_number' => $mobileNumber,
             'profile_picture' => $profilePicture,
-            'nin' => $nin,
         ]);
         return $user;
     }

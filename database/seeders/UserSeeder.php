@@ -49,7 +49,6 @@ class UserSeeder extends Seeder
         $service->create(
             invitedBy: null,
             industryId: null,
-            businessName: 'Financeher',
             firstName: 'Super',
             lastName: 'Admin',
             email: 'super.admin@financeher.co',
@@ -62,7 +61,6 @@ class UserSeeder extends Seeder
         $service->create(
             invitedBy: null,
             industryId: null,
-            businessName: 'SpiralOver',
             firstName: 'Ahmad',
             lastName: 'Mustapha',
             email: 'me@ahmard.com',
@@ -78,7 +76,6 @@ class UserSeeder extends Seeder
             $service->create(
                 invitedBy: null,
                 industryId: null,
-                businessName: null,
                 firstName: $faker->firstName(),
                 lastName: $faker->lastName(),
                 email: $faker->email(),

@@ -2,12 +2,10 @@
 
 namespace App\Http\Requests\User;
 
-use App\Rules\EmailValidator;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ProfileUpdateRequest extends FormRequest
+class NotificationSettingChangeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,13 +18,14 @@ class ProfileUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'email' => EmailValidator::rules(),
-            'full_name' => 'required|string|min:4|max:150',
+            'is_news_notification_enabled' => 'required|boolean',
+            'is_new_opportunity_notification_enabled' => 'required|boolean',
+            'is_app_opportunity_notification_enabled' => 'required|boolean',
         ];
     }
 }

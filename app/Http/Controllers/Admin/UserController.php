@@ -67,6 +67,25 @@ class UserController extends Controller
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    public function admins(): JsonResponse
+    {
+        $builder = $this->service
+            ->repository()
+            ->queryBuilder()
+            ->withSearch($this->getSearchQuery())
+            ->filterAdmins();
+
+        return $this->responder->datatableFilterable(
+            builder: $builder,
+            responseMessage: 'Admin list fetched successfully'
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function active(): JsonResponse
     {
         $builder = $this->service
@@ -86,7 +105,15 @@ class UserController extends Controller
     {
         return $this->responder()->success(
             data: $this->service->pageMetrics(),
-            message: 'Plan metrics retrieved successfully'
+            message: 'User metrics retrieved successfully'
+        );
+    }
+
+    public function customerPageMetrics(): JsonResponse
+    {
+        return $this->responder()->success(
+            data: $this->service->customerPageMetrics(),
+            message: 'Customer metrics retrieved successfully'
         );
     }
 
@@ -168,15 +195,14 @@ class UserController extends Controller
 
     /**
      * @param int|string $id
-     * @param ReasonRequest $request
      * @return JsonResponse
      */
-    public function activate(int|string $id, ReasonRequest $request): JsonResponse
+    public function activate(int|string $id): JsonResponse
     {
         $model = $this->service->activate(
             id: $id,
             activatedBy: Auth::id(),
-            reason: $request->reason(),
+            reason: '[no reason provided]',
         );
 
         return $this->responder->success(
@@ -187,15 +213,14 @@ class UserController extends Controller
 
     /**
      * @param int|string $id
-     * @param ReasonRequest $request
      * @return JsonResponse
      */
-    public function deactivate(int|string $id, ReasonRequest $request): JsonResponse
+    public function deactivate(int|string $id): JsonResponse
     {
         $model = $this->service->deactivate(
             id: $id,
             deactivatedBy: Auth::id(),
-            reason: $request->reason(),
+            reason: '[no reason provided]',
         );
 
         return $this->responder->success(

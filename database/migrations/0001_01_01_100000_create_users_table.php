@@ -31,13 +31,13 @@ return new class extends Migration {
             $table->string('mobile_number')->nullable();
             $table->string('email')->unique();
 
-            $table->string('business_name')
-                ->unique()
-                ->nullable();
-
             $table->string('profile_picture')->nullable();
 
             $table->boolean('is_admin')->default(true);
+
+            $table->boolean('is_news_notification_enabled')->default(true);
+            $table->boolean('is_new_opportunity_notification_enabled')->default(true);
+            $table->boolean('is_app_opportunity_notification_enabled')->default(true);
 
             $table->enum('registration_stage', UserRegistrationStage::getDBCompatibleEnum())
                 ->default(UserRegistrationStage::EMAIL_VERIFICATION->lowercase());

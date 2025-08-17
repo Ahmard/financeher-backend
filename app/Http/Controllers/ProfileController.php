@@ -6,6 +6,8 @@ use App\Exceptions\WarningException;
 use App\Helpers\Http\Responder;
 use App\Http\Requests\Auth\AccountSetupFinaliseRequest;
 use App\Http\Requests\ImageUploadRequest;
+use App\Http\Requests\Settings\ChangePasswordRequest;
+use App\Http\Requests\User\NotificationSettingChangeRequest;
 use App\Http\Requests\User\ProfileUpdateRequest;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
@@ -49,12 +51,18 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): JsonResponse
     {
+        $fullName = $request->validated('full_name');
+        [
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ] = UserService::FirstLastNameFromFullName($fullName);
+
         $this->userService->update(
             id: Auth::id(),
-            firstName: $request->validated('first_name'),
-            lastName: $request->validated('last_name'),
+            firstName: $firstName,
+            lastName: $lastName,
             email: $request->validated('email'),
-            mobileNumber: $request->validated('mobile_number'),
+            mobileNumber: null,
         );
 
         return $this->responder->successMessage('Profile updated successfully');
@@ -72,6 +80,35 @@ class ProfileController extends Controller
         return $this->responder->success(
             data: $user,
             message: 'Account setup completed successfully'
+        );
+    }
+
+    /**
+     * @throws WarningException
+     */
+    public function changePassword(ChangePasswordRequest $request): JsonResponse
+    {
+        $this->userService->changePassword(
+            userId: Auth::id(),
+            old: $request->validated('old_password'),
+            new: $request->validated('password'),
+        );
+
+        return $this->responder->successMessage('Password changed successfully');
+    }
+
+    public function changeNotificationSettings(NotificationSettingChangeRequest $request): JsonResponse
+    {
+        $user = $this->userService->changeNotificationSettings(
+            user: Auth::user(),
+            isNewsNotificationEnabled: $request->validated('is_news_notification_enabled'),
+            isNewOppNotificationEnabled: $request->validated('is_new_opportunity_notification_enabled'),
+            isAppOppNotificationEnabled: $request->validated('is_app_opportunity_notification_enabled'),
+        );
+
+        return $this->responder->success(
+            data: $user,
+            message: 'Notification settings changed successfully'
         );
     }
 }

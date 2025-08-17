@@ -49,9 +49,18 @@ class UserQueryBuilder extends BaseQueryBuilder
         return $this->all()->where('users.is_admin', false);
     }
 
-    public function admins(): Builder
+    public function filterAdmins(): Builder
     {
-        return $this->withRole(UserRole::ADMIN)->all();
+        return $this
+            ->all()
+            ->where('users.is_admin', true)
+            ->selectSub(function (\Illuminate\Database\Query\Builder $builder) {
+                $builder
+                    ->selectRaw('GROUP_CONCAT(roles.name SEPARATOR ", ")')
+                    ->from('model_has_roles')
+                    ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                    ->whereRaw('users.id = model_has_roles.model_id');
+            }, 'role_names');
     }
 
     public function withRole(UserRole $role): static
@@ -62,6 +71,13 @@ class UserQueryBuilder extends BaseQueryBuilder
 
     protected function builder(): Builder
     {
-        return User::query();
+        return User::query()
+            ->select([
+                'users.*',
+                'industries.name as industry_name',
+                'business_stages.name as business_stage_name',
+            ])
+            ->leftJoin('industries', 'industries.id', 'users.industry_id')
+            ->leftJoin('business_stages', 'business_stages.id', 'users.business_stage_id');
     }
 }

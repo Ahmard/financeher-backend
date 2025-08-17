@@ -19,6 +19,8 @@ Route::middleware('auth.perm')->group(function () {
     Route::get('profile', [ProfileController::class, 'info']);
     Route::put('profile', [ProfileController::class, 'update']);
     Route::post('profile/picture', [ProfileController::class, 'uploadProfilePicture']);
+    Route::put('profile/password', [ProfileController::class, 'changePassword']);
+    Route::put('profile/notification-settings', [ProfileController::class, 'changeNotificationSettings']);
 
     Route::prefix('opportunities')->group(function () {
         Route::get('/', [OpportunityController::class, 'index']);

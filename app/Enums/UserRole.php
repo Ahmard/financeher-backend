@@ -11,5 +11,5 @@ enum UserRole implements DBCompatibleEnumInterface
 
     case ADMIN;
     case SUPER_ADMIN;
-    case USER;
+    case CUSTOMER;
 }

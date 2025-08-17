@@ -81,7 +81,6 @@ class UserService extends BasePersistableService
     public function create(
         ?int       $invitedBy,
         ?string    $industryId,
-        ?string    $businessName,
         string     $firstName,
         ?string    $lastName,
         string     $email,
@@ -90,7 +89,7 @@ class UserService extends BasePersistableService
         bool       $isAdmin,
         ?string    $profilePicture = null,
         bool       $withVerificationEmail = false,
-        UserRole   $role = UserRole::USER,
+        UserRole   $role = UserRole::CUSTOMER,
         UserStatus $status = UserStatus::ACTIVE,
     ): User|Model
     {
@@ -98,7 +97,6 @@ class UserService extends BasePersistableService
         $user = $this->repository->create(
             invitedBy: $invitedBy,
             industryId: $industryId,
-            businessName: $businessName,
             firstName: $firstName,
             lastName: $lastName,
             email: $email,
@@ -158,9 +156,8 @@ class UserService extends BasePersistableService
         string  $firstName,
         string  $lastName,
         string  $email,
-        string  $mobileNumber,
+        ?string $mobileNumber,
         ?string $profilePicture = null,
-        ?string $nin = null,
     ): Model|User
     {
         return $this->repository->update(
@@ -170,7 +167,6 @@ class UserService extends BasePersistableService
             email: $email,
             mobileNumber: $mobileNumber,
             profilePicture: $profilePicture,
-            nin: $nin,
         );
     }
 
@@ -239,6 +235,23 @@ class UserService extends BasePersistableService
         ];
     }
 
+    public function customerPageMetrics(): array
+    {
+        return [
+            'all' => User::query()
+                ->where('users.is_admin', false)
+                ->count(),
+            'active' => User::query()
+                ->where('users.is_admin', false)
+                ->where('status', UserStatus::ACTIVE->lowercase())
+                ->count(),
+            'suspended' => User::query()
+                ->where('users.is_admin', false)
+                ->where('status', UserStatus::INACTIVE->lowercase())
+                ->count(),
+        ];
+    }
+
     public static function clearCache(int $userId): void
     {
         $cacheKey = User::makeCacheKey($userId);
@@ -297,6 +310,23 @@ class UserService extends BasePersistableService
         $user->update([
             'password' => Hash::make($rawPassword),
             'last_password_reset_at' => Carbon::now(),
+        ]);
+
+        return $user;
+    }
+
+    public function changeNotificationSettings(
+        int|Model|User $user,
+        bool           $isNewsNotificationEnabled,
+        bool           $isNewOppNotificationEnabled,
+        bool           $isAppOppNotificationEnabled,
+    ): Model|User
+    {
+        $user = $this->getUser($user);
+        $user->update([
+            'is_news_notification_enabled' => $isNewsNotificationEnabled,
+            'is_new_opportunity_notification_enabled' => $isNewOppNotificationEnabled,
+            'is_app_opportunity_notification_enabled' => $isAppOppNotificationEnabled,
         ]);
 
         return $user;
@@ -483,6 +513,15 @@ class UserService extends BasePersistableService
             'first_name' => $firstName,
             'last_name' => $lastName
         ];
+    }
+
+    public function getUser(int|Model|User $user): Model|User
+    {
+        if (is_int($user)) {
+            return $this->repository->findRequiredById($user);
+        }
+
+        return $user;
     }
 
     public function repository(): UserRepository

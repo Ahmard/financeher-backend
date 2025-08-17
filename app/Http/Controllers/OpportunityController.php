@@ -69,6 +69,7 @@ class OpportunityController extends Controller
     {
         return $this->responder->datatableFilterable(
             builder: $queryBuilder
+                ->withOwnerId(Auth::id())
                 ->withSearch($this->getSearchQuery())
                 ->all(),
             responseMessage: 'Applied opportunities fetched successfully'
@@ -95,6 +96,7 @@ class OpportunityController extends Controller
     {
         return $this->responder->datatableFilterable(
             builder: $queryBuilder
+                ->withOwnerId(Auth::id())
                 ->withSearch($this->getSearchQuery())
                 ->all(),
             responseMessage: 'Saved opportunities fetched successfully'
